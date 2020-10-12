@@ -19,8 +19,7 @@ let package = Package(
             name: "FatturaElettronica",
             dependencies: [
                 .product(name: "XMLCoder", package: "XMLCoder"), .product(name: "NIO", package: "swift-nio"),
-            ],
-            swiftSettings: [.unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))]
+            ]
         ),
         .testTarget(
             name: "AppTests",
