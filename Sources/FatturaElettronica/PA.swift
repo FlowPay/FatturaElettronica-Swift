@@ -9,10 +9,10 @@ import Foundation
 public struct Indirizzo: Codable {
     public let indirizzo: String
     public let numeroCivico: String?
-    public let cap: Int
-    public let comune: String
-    public let provincia: String?
-    public let nazione: String
+   public let cap: Int
+   public let comune: String
+   public let provincia: String?
+   public let nazione: String
     
     enum CodingKeys: String, CodingKey{
         case indirizzo = "Indirizzo"
@@ -25,11 +25,11 @@ public struct Indirizzo: Codable {
 }
 
 public struct Anagrafica: Codable {
-    let denominazione: String?
-    let nome: String?
-    let cognome: String?
-    let codEORI: String?
-    let titolo: String?
+   public let denominazione: String?
+   public let nome: String?
+   public let cognome: String?
+   public let codEORI: String?
+   public let titolo: String?
     
     var anagrafica: String {
         if let value = self.denominazione{
@@ -48,8 +48,8 @@ public struct Anagrafica: Codable {
 }
 
 public struct IDFiscale: Codable {
-    public let idPaese: String
-    public let idCodice: String
+   public let idPaese: String
+   public let idCodice: String
     
     enum CodingKeys: String, CodingKey{
         case idPaese = "IdPaese"
@@ -57,7 +57,7 @@ public struct IDFiscale: Codable {
     }
 }
 
-enum Natura: String, Codable {
+public enum Natura: String, Codable {
     case ESCLUSE = "N1"
     case NONSOGGETTE = "N2" // NON PIU VALIDO DAL GENNAIO 2021
     case NONSOGGETTEADIVA = "N2.1"
@@ -87,8 +87,8 @@ enum Natura: String, Codable {
 // MARK: - <FatturaElettronica>
 public struct FatturaElettronica: Codable {
     
-    public let fatturaElettronicaHeader: FatturaElettronicaHeader
-    public let fatturaElettronicaBody: FatturaElettronicaBody
+   public let fatturaElettronicaHeader: FatturaElettronicaHeader
+   public let fatturaElettronicaBody: FatturaElettronicaBody
     
     enum CodingKeys: String, CodingKey{
         case fatturaElettronicaHeader = "FatturaElettronicaHeader"
@@ -99,12 +99,12 @@ public struct FatturaElettronica: Codable {
 
 // MARK: - 1 <FatturaElettronicaHeader>
 public struct FatturaElettronicaHeader: Codable {
-    public let datiTrasmissione: DatiTrasmissione
-    public let cedentePrestatore: CedentePrestatore
-    public let rappresentanteFiscale: RappresentanteFiscale?
-    public let cessionarioCommittente: CessionarioCommittente
-    public let terzoIntermediarioOSoggettoEmittente: TerzoIntermediarioSoggettoEmittente?
-    public let soggettoEmittente: SoggettoEmittente?
+   public let datiTrasmissione: DatiTrasmissione
+   public let cedentePrestatore: CedentePrestatore
+   public let rappresentanteFiscale: RappresentanteFiscale?
+   public let cessionarioCommittente: CessionarioCommittente
+   public let terzoIntermediarioOSoggettoEmittente: TerzoIntermediarioSoggettoEmittente?
+   public let soggettoEmittente: SoggettoEmittente?
     
     enum CodingKeys: String, CodingKey{
         case datiTrasmissione = "DatiTrasmissione"
@@ -118,12 +118,12 @@ public struct FatturaElettronicaHeader: Codable {
 
 // MARK: - 1.1 <DatiTrasmissione>
 public struct DatiTrasmissione: Codable {
-    let idTrasmittente: IDFiscale
-    let progressivoInvio: String
-    let formatoTrasmissione: FormatoTrasmissione
-    let codiceDestinatario: String
-    let contattiTrasmittente: ContattiTrasmittente?
-    let pecDestinatario: String?
+   public let idTrasmittente: IDFiscale
+   public let progressivoInvio: String
+   public let formatoTrasmissione: FormatoTrasmissione
+   public let codiceDestinatario: String
+   public let contattiTrasmittente: ContattiTrasmittente?
+   public let pecDestinatario: String?
     
     enum CodingKeys: String, CodingKey{
         case idTrasmittente = "IdTrasmittente"
@@ -141,8 +141,8 @@ public enum FormatoTrasmissione: String, Codable {
 }
 
 public struct ContattiTrasmittente: Codable {
-    let telefono: String?
-    let email: String?
+   public let telefono: String?
+   public let email: String?
     
     enum CodingKeys: String, CodingKey{
         case telefono = "Telefono"
@@ -152,12 +152,12 @@ public struct ContattiTrasmittente: Codable {
 
 // MARK: - 1.2 <CedentePrestatore>
 public struct CedentePrestatore: Codable {
-    public let datiAnagrafici: CedentePrestatoreDatiAnagrafici
-    public let sede: Indirizzo
-    public let stabileOrganizzazione: Indirizzo?
-    public let iscrizioneREA: IscrizioneREA?
-    public let contatti: Contatti?
-    public let riferimentoAmministrazione: String?
+   public let datiAnagrafici: CedentePrestatoreDatiAnagrafici
+   public let sede: Indirizzo
+   public let stabileOrganizzazione: Indirizzo?
+   public let iscrizioneREA: IscrizioneREA?
+   public let contatti: Contatti?
+   public let riferimentoAmministrazione: String?
     
     enum CodingKeys: String, CodingKey{
         case datiAnagrafici = "DatiAnagrafici"
@@ -171,14 +171,14 @@ public struct CedentePrestatore: Codable {
 }
 
 public struct CedentePrestatoreDatiAnagrafici: Codable {
-    public let idFiscaleIva: IDFiscale
-    public let anagrafica: Anagrafica
-    public let regimeFiscale: RegimeFiscale
-    public let codiceFiscale: String?
-    public let alboProfessionale: String?
-    public let provinciaAlbo: String?
-    public let numeroIscrizioneAlbo: String?
-    public let dataIscrizioAlbo: String?
+   public let idFiscaleIva: IDFiscale
+   public let anagrafica: Anagrafica
+   public let regimeFiscale: RegimeFiscale
+   public let codiceFiscale: String?
+   public let alboProfessionale: String?
+   public let provinciaAlbo: String?
+   public let numeroIscrizioneAlbo: String?
+   public let dataIscrizioAlbo: String?
     
     enum CodingKeys: String, CodingKey{
         case idFiscaleIva = "IdFiscaleIVA"
@@ -194,11 +194,11 @@ public struct CedentePrestatoreDatiAnagrafici: Codable {
 }
 
 public struct IscrizioneREA: Codable {
-    public let ufficio : String
-    public let numeroREA: String
-    public let capitaleSociale: Double?
-    public let socioUnico: SocioUnico?
-    public let statoLiquidazione: StatoLiquidazione
+   public let ufficio : String
+   public let numeroREA: String
+   public let capitaleSociale: Double?
+   public let socioUnico: SocioUnico?
+   public let statoLiquidazione: StatoLiquidazione
     
     enum CodingKeys: String, CodingKey{
         case ufficio = "Ufficio"
@@ -220,9 +220,9 @@ public enum SocioUnico: String, Codable {
 }
 
 public struct Contatti: Codable {
-    public let telefono : String?
-    public let fax: String?
-    public let email: String?
+   public let telefono : String?
+   public let fax: String?
+   public let email: String?
     
     enum CodingKeys: String, CodingKey{
         case telefono = "Telefono"
@@ -256,7 +256,7 @@ public enum RegimeFiscale: String, Codable {
 
 // MARK: - 1.3 <RappresentateFiscale>
 public struct RappresentanteFiscale: Codable {
-    let datiAnagrafici: DatiAnagraficiRappresentante
+   public let datiAnagrafici: DatiAnagraficiRappresentante
     
     enum CodingKeys: String, CodingKey{
         case datiAnagrafici = "DatiAnagrafici"
@@ -264,9 +264,9 @@ public struct RappresentanteFiscale: Codable {
 }
 
 public struct DatiAnagraficiRappresentante: Codable {
-    let idFiscaleIva: IDFiscale
-    let codiceFiscale: String?
-    let anagrafica: Anagrafica
+   public let idFiscaleIva: IDFiscale
+   public let codiceFiscale: String?
+   public let anagrafica: Anagrafica
     
     enum CodingKeys: String, CodingKey{
         case idFiscaleIva = "IdFiscaleIVA"
@@ -277,10 +277,10 @@ public struct DatiAnagraficiRappresentante: Codable {
 
 // MARK: - 1.4 <CessionarioCommittente>
 public struct CessionarioCommittente: Codable {
-    let datiAnagrafici: CessionarioCommittenteDatiAnagrafici
-    let sede: Indirizzo
-    let stabileOrganizzazione: Indirizzo?
-    let rappresentanteFiscale: CessionarioCommittenteRappresentanteFiscale?
+   public let datiAnagrafici: CessionarioCommittenteDatiAnagrafici
+   public let sede: Indirizzo
+   public let stabileOrganizzazione: Indirizzo?
+   public let rappresentanteFiscale: CessionarioCommittenteRappresentanteFiscale?
     
     enum CodingKeys: String, CodingKey{
         case datiAnagrafici = "DatiAnagrafici"
@@ -291,9 +291,9 @@ public struct CessionarioCommittente: Codable {
 }
 
 public struct CessionarioCommittenteDatiAnagrafici: Codable {
-    let idFiscaleIva: IDFiscale?
-    let codiceFiscale: String?
-    let anagrafica: Anagrafica
+   public let idFiscaleIva: IDFiscale?
+   public let codiceFiscale: String?
+   public let anagrafica: Anagrafica
     
     enum CodingKeys: String, CodingKey{
         case idFiscaleIva = "IdFiscaleIVA"
@@ -303,9 +303,9 @@ public struct CessionarioCommittenteDatiAnagrafici: Codable {
 }
 
 public struct CessionarioCommittenteRappresentanteFiscale: Codable {
-    let idFiscaleIva: IDFiscale
-    let codiceFiscale: String
-    let anagrafica: Anagrafica
+   public let idFiscaleIva: IDFiscale
+   public let codiceFiscale: String
+   public let anagrafica: Anagrafica
     
     enum CodingKeys: String, CodingKey{
         case idFiscaleIva = "IdFiscaleIVA"
@@ -316,7 +316,7 @@ public struct CessionarioCommittenteRappresentanteFiscale: Codable {
 
 // MARK: - 1.5 <TerzoIntermediarioOSoggettoEmittente>
 public struct TerzoIntermediarioSoggettoEmittente: Codable {
-    let datiAnagrafici: DatiAnagraficiTerzoIntermediario
+   public let datiAnagrafici: DatiAnagraficiTerzoIntermediario
     
     enum CodingKeys: String, CodingKey{
         case datiAnagrafici = "DatiAnagrafici"
@@ -324,9 +324,9 @@ public struct TerzoIntermediarioSoggettoEmittente: Codable {
 }
 
 public struct DatiAnagraficiTerzoIntermediario: Codable {
-    let idFiscaleIva: IDFiscale?
-    let codiceFiscale: String?
-    let anagrafica: Anagrafica
+   public let idFiscaleIva: IDFiscale?
+   public let codiceFiscale: String?
+   public let anagrafica: Anagrafica
     
     enum CodingKeys: String, CodingKey{
         case idFiscaleIva = "IdFiscaleIVA"
@@ -344,11 +344,11 @@ public enum SoggettoEmittente: String, Codable {
 // MARK: - 2 <FatturaElettronicaBody>
 public struct FatturaElettronicaBody: Codable {
     
-    public let datiGenerali: DatiGenerali
-    public let datiBeniServizi: DatiBeniServizi
-    public let datiVeicoli: DatiVeicoli?
+   public let datiGenerali: DatiGenerali
+   public let datiBeniServizi: DatiBeniServizi
+   public let datiVeicoli: DatiVeicoli?
     public var datiPagamento: [DatiPagamento] = []
-    public let allegati: [Allegati]?
+   public let allegati: [Allegati]?
     
     enum CodingKeys: String, CodingKey{
         case allegati = "Allegati"
@@ -361,16 +361,16 @@ public struct FatturaElettronicaBody: Codable {
 
 // MARK: - 2.1 <DatiGenerali>
 public struct DatiGenerali: Codable {
-    public let datiGeneraliDocumento: DatiGeneraliDocumento
-    public let datiOrdineAcquisto: [DatiDocumentiCorrelati]?
-    public let datiContratto: [DatiDocumentiCorrelati]?
-    public let datiConvenzione: [DatiDocumentiCorrelati]?
-    public let datiRicezione: [DatiDocumentiCorrelati]?
-    public let datiFattureCollegate: [DatiDocumentiCorrelati]?
-    public let datiSal: [DatiSAL]?
-    public let datiDdt: [DatiDDT]?
-    public let datiTrasporto: DatiTrasporto?
-    public let fatturaPrincipale: FatturaPrincipale?
+   public let datiGeneraliDocumento: DatiGeneraliDocumento
+   public let datiOrdineAcquisto: [DatiDocumentiCorrelati]?
+   public let datiContratto: [DatiDocumentiCorrelati]?
+   public let datiConvenzione: [DatiDocumentiCorrelati]?
+   public let datiRicezione: [DatiDocumentiCorrelati]?
+   public let datiFattureCollegate: [DatiDocumentiCorrelati]?
+   public let datiSal: [DatiSAL]?
+   public let datiDdt: [DatiDDT]?
+   public let datiTrasporto: DatiTrasporto?
+   public let fatturaPrincipale: FatturaPrincipale?
     
     enum CodingKeys: String, CodingKey{
         case datiGeneraliDocumento = "DatiGeneraliDocumento"
@@ -387,18 +387,18 @@ public struct DatiGenerali: Codable {
 }
 
 public struct DatiGeneraliDocumento: Codable {
-    public let tipoDocumento: TipoDocumento
-    public let divisa: String
-    public let data: Date
-    public let numero: String
-    public let datiRitenuta: [DatiRitenuta]?
-    public let datiBollo: DatiBollo?
-    public let datiCassaPrevidenziale: [DatiCassaPrevidenziale]?
-    public let scontoMaggiorazione: [ScontoMaggiorazione]?
-    public let importoTotaleDocumento: Double?
-    public let arrotondamento: Double?
-    public let causale: [String]?
-    public let art73: String?
+   public let tipoDocumento: TipoDocumento
+   public let divisa: String
+   public let data: Date
+   public let numero: String
+   public let datiRitenuta: [DatiRitenuta]?
+   public let datiBollo: DatiBollo?
+   public let datiCassaPrevidenziale: [DatiCassaPrevidenziale]?
+   public let scontoMaggiorazione: [ScontoMaggiorazione]?
+   public let importoTotaleDocumento: Double?
+   public let arrotondamento: Double?
+   public let causale: [String]?
+   public let art73: String?
     
     enum CodingKeys: String, CodingKey{
         case tipoDocumento = "TipoDocumento"
@@ -437,10 +437,10 @@ public enum TipoDocumento: String, Codable {
 }
 
 public struct DatiRitenuta: Codable {
-    let tipoRitenuta: TipoRitenuta
-    let importoRitenuta: Double
-    let aliquotaRitenuta: Double
-    let causalePagamento: CausalePagamento
+   public let tipoRitenuta: TipoRitenuta
+   public let importoRitenuta: Double
+   public let aliquotaRitenuta: Double
+   public let causalePagamento: CausalePagamento
     
     enum CodingKeys: String, CodingKey{
         case tipoRitenuta = "TipoRitenuta"
@@ -490,8 +490,8 @@ public enum CausalePagamento: String, Codable {
 }
 
 public struct DatiBollo: Codable {
-    let bolloVirtuale: String
-    let importoBollo: Double?
+   public let bolloVirtuale: String
+   public let importoBollo: Double?
     
     enum CodingKeys: String, CodingKey{
         case bolloVirtuale = "BolloVirtuale"
@@ -500,14 +500,14 @@ public struct DatiBollo: Codable {
 }
 
 public struct DatiCassaPrevidenziale: Codable {
-    let tipoCassa: TipoCassa
-    let alCassa: Double
-    let importoContributoCassa: Double
-    let imponibileCassa: Double?
-    let aliquotaIVA: Double
-    let ritenuta: Bool?
-    let natura: Natura?
-    let riferimentoAmministrazione: String?
+   public let tipoCassa: TipoCassa
+   public let alCassa: Double
+   public let importoContributoCassa: Double
+   public let imponibileCassa: Double?
+   public let aliquotaIVA: Double
+   public let ritenuta: Bool?
+   public let natura: Natura?
+   public let riferimentoAmministrazione: String?
     
     enum CodingKeys: String, CodingKey{
         case tipoCassa = "TipoCassa"
@@ -521,7 +521,7 @@ public struct DatiCassaPrevidenziale: Codable {
     }
 }
 
-enum TipoCassa: String, Codable {
+public enum TipoCassa: String, Codable {
     case TC01 = "TC01"
     case TC02 = "TC02"
     case TC03 = "TC03"
@@ -546,9 +546,9 @@ enum TipoCassa: String, Codable {
 }
 
 public struct ScontoMaggiorazione: Codable {
-    let tipo: TipoScontoMaggiorazione
-    let percentuale: Double?
-    let importo: Double?
+   public let tipo: TipoScontoMaggiorazione
+   public let percentuale: Double?
+   public let importo: Double?
     
     enum CodingKeys: String, CodingKey{
         case tipo = "Tipo"
@@ -557,19 +557,19 @@ public struct ScontoMaggiorazione: Codable {
     }
 }
 
-enum TipoScontoMaggiorazione: String, Codable {
+public enum TipoScontoMaggiorazione: String, Codable {
     case SCONTO = "SC"
     case MAGGIORAZIONE = "MG"
 }
 
 public struct DatiDocumentiCorrelati: Codable {
-    let riferimentoNumeroLinea: [Int]?
-    let idDocumento: String
-    let numItem: String?
-    let codiceCup: String?
-    let codiceCig: String?
-    let data: Date?
-    let codiceCommessaConvenzione: String?
+   public let riferimentoNumeroLinea: [Int]?
+   public let idDocumento: String
+   public let numItem: String?
+   public let codiceCup: String?
+   public let codiceCig: String?
+   public let data: Date?
+   public let codiceCommessaConvenzione: String?
     
     enum CodingKeys: String, CodingKey{
         case riferimentoNumeroLinea = "RiferimentoNumeroLinea"
@@ -583,7 +583,7 @@ public struct DatiDocumentiCorrelati: Codable {
 }
 
 public struct DatiSAL: Codable {
-    let riferimentoFase: Int
+   public let riferimentoFase: Int
     
     enum CodingKeys: String, CodingKey{
         case riferimentoFase = "RiferimentoFase"
@@ -591,9 +591,9 @@ public struct DatiSAL: Codable {
 }
 
 public struct DatiDDT: Codable {
-    let numeroDdt: String
-    let dataDdt: Date
-    let riferimentoNumeroLinea: [Int]?
+   public let numeroDdt: String
+   public let dataDdt: Date
+   public let riferimentoNumeroLinea: [Int]?
     
     enum CodingKeys: String, CodingKey{
         case numeroDdt = "NumeroDdt"
@@ -603,19 +603,19 @@ public struct DatiDDT: Codable {
 }
 
 public struct DatiTrasporto: Codable {
-    let datiAnagraficiVettore: DatiAnagraficiVettore?
-    let mezzoTrasporto: String?
-    let causaleTrasporto: String?
-    let numeroColli: Int?
-    let descrizione: String?
-    let unitaMisuraPeso: String?
-    let pesoLordo: Double?
-    let pesoNetto: Double?
-    let dataOraRitiro: Date?
-    let dataInizioTrasporto: Date?
-    let tipoResa: String?
-    let indirizzoResa: Indirizzo?
-    let dataOraConsegna: Date?
+   public let datiAnagraficiVettore: DatiAnagraficiVettore?
+   public let mezzoTrasporto: String?
+   public let causaleTrasporto: String?
+   public let numeroColli: Int?
+   public let descrizione: String?
+   public let unitaMisuraPeso: String?
+   public let pesoLordo: Double?
+   public let pesoNetto: Double?
+   public let dataOraRitiro: Date?
+   public let dataInizioTrasporto: Date?
+   public let tipoResa: String?
+   public let indirizzoResa: Indirizzo?
+   public let dataOraConsegna: Date?
     
     enum CodingKeys: String, CodingKey{
         case datiAnagraficiVettore = "DatiAnagraficiVettore"
@@ -636,10 +636,10 @@ public struct DatiTrasporto: Codable {
 }
 
 public struct DatiAnagraficiVettore: Codable {
-    let idFiscaleIva: IDFiscale
-    let codiceFiscale: String?
-    let anagrafica: Anagrafica
-    let numeroLicenzaGuida: String?
+   public let idFiscaleIva: IDFiscale
+   public let codiceFiscale: String?
+   public let anagrafica: Anagrafica
+   public let numeroLicenzaGuida: String?
     
     enum CodingKeys: String, CodingKey{
         case idFiscaleIva = "IdFiscaleIVA"
@@ -650,8 +650,8 @@ public struct DatiAnagraficiVettore: Codable {
 }
 
 public struct FatturaPrincipale: Codable {
-    let numeroFatturaPrincipale: String
-    let dataFatturaPrincipale: Date
+   public let numeroFatturaPrincipale: String
+   public let dataFatturaPrincipale: Date
     
     enum CodingKeys: String, CodingKey{
         case numeroFatturaPrincipale = "NumeroFatturaPrincipale"
@@ -661,8 +661,8 @@ public struct FatturaPrincipale: Codable {
 
 // MARK: - 2.2 <DatiBeniServizi>
 public struct DatiBeniServizi: Codable {
-    let dettaglioLinee: [DettaglioLinee]
-    let datiRiepilogo: [DatiRiepilogo]
+   public let dettaglioLinee: [DettaglioLinee]
+   public let datiRiepilogo: [DatiRiepilogo]
     
     enum CodingKeys: String, CodingKey{
         case dettaglioLinee = "DettaglioLinee"
@@ -671,22 +671,22 @@ public struct DatiBeniServizi: Codable {
 }
 
 public struct DettaglioLinee: Codable {
-    let codiceArticolo: [CodiceArticolo]?
-    let numeroLinea: Int
-    let tipoCessionePrestazione: TipoCessionePrestazione?
-    let descrizione: String
-    let quantita: Double?
-    let unitaMisura: String?
-    let dataInizioPeriodo: Date?
-    let dataFinePeriodo: Date?
-    let prezzoUnitario: Double
-    let scontoMaggiorazione: [ScontoMaggiorazione]?
-    let prezzoTotale: Double
-    let aliquotaIva: Double
-    let ritenuta: Bool?
-    let natura: Natura?
-    let riferimentoAmministrazione: String?
-    let altriDatiGestionali: [AltriDatiGestionali]?
+   public let codiceArticolo: [CodiceArticolo]?
+   public let numeroLinea: Int
+   public let tipoCessionePrestazione: TipoCessionePrestazione?
+   public let descrizione: String
+   public let quantita: Double?
+   public let unitaMisura: String?
+   public let dataInizioPeriodo: Date?
+   public let dataFinePeriodo: Date?
+   public let prezzoUnitario: Double
+   public let scontoMaggiorazione: [ScontoMaggiorazione]?
+   public let prezzoTotale: Double
+   public let aliquotaIva: Double
+   public let ritenuta: Bool?
+   public let natura: Natura?
+   public let riferimentoAmministrazione: String?
+   public let altriDatiGestionali: [AltriDatiGestionali]?
     
     enum CodingKeys: String, CodingKey{
         case codiceArticolo = "CodiceArticolo"
@@ -709,14 +709,14 @@ public struct DettaglioLinee: Codable {
 }
 
 public struct DatiRiepilogo: Codable {
-    let aliquotaIva: Double
-    let natura: Natura?
-    let speseAccessorie: Double?
-    let arrotondamento: Double?
-    let imponibileImporto: Double
-    let imposta: Double
-    let esigibilitaIva: EsigibilitaIVA?
-    let riferimentoNormativo: String?
+   public let aliquotaIva: Double
+   public let natura: Natura?
+   public let speseAccessorie: Double?
+   public let arrotondamento: Double?
+   public let imponibileImporto: Double
+   public let imposta: Double
+   public let esigibilitaIva: EsigibilitaIVA?
+   public let riferimentoNormativo: String?
     
     enum CodingKeys: String, CodingKey{
         case aliquotaIva = "AliquotaIVA"
@@ -730,13 +730,13 @@ public struct DatiRiepilogo: Codable {
     }
 }
 
-enum EsigibilitaIVA: String, Codable {
+public enum EsigibilitaIVA: String, Codable {
     case ESIGIBILITADIFFERITA = "D"
     case ESIGIBILITAIMMEDIATA = "I"
     case SCISSIONEDEIPAGAMENTI = "S"
 }
 
-enum TipoCessionePrestazione: String, Codable {
+public enum TipoCessionePrestazione: String, Codable {
     case SCONTO = "SC"
     case PREMIO = "PR"
     case ABBUONO = "AB"
@@ -744,8 +744,8 @@ enum TipoCessionePrestazione: String, Codable {
 }
 
 public struct CodiceArticolo: Codable {
-    let codiceTipo: String
-    let codiceValore: String
+   public let codiceTipo: String
+   public let codiceValore: String
     
     enum CodingKeys: String, CodingKey{
         case codiceTipo = "CodiceTipo"
@@ -754,10 +754,10 @@ public struct CodiceArticolo: Codable {
 }
 
 public struct AltriDatiGestionali: Codable {
-    let tipoDato: String
-    let riferimentoTesto: String?
-    let riferimentoNumero: Double?
-    let riferimentoData: Date?
+   public let tipoDato: String
+   public let riferimentoTesto: String?
+   public let riferimentoNumero: Double?
+   public let riferimentoData: Date?
     
     enum CodingKeys: String, CodingKey{
         case tipoDato = "TipoDato"
@@ -769,8 +769,8 @@ public struct AltriDatiGestionali: Codable {
 
 // MARK: - 2.3 <DatiVeicoli>
 public struct DatiVeicoli: Codable {
-    let data: Date
-    let totalePercorso: String
+   public let data: Date
+   public let totalePercorso: String
     
     enum CodingKeys: String, CodingKey{
         case data = "Data"
@@ -781,8 +781,8 @@ public struct DatiVeicoli: Codable {
 // MARK: - 2.4 <DatiPagamento>
 public struct DatiPagamento: Codable {
     
-    let dettaglioPagamento: [DettaglioPagamento]
-    let condizioniPagamento: CondizioniPagamento
+   public let dettaglioPagamento: [DettaglioPagamento]
+   public let condizioniPagamento: CondizioniPagamento
     
     enum CodingKeys: String, CodingKey{
         case dettaglioPagamento = "DettaglioPagamento"
@@ -791,27 +791,27 @@ public struct DatiPagamento: Codable {
 }
 
 public struct DettaglioPagamento: Codable {
-    let beneficiario: String?
-    let modalitaPagamento: ModalitaPagamento
-    let dataRiferimentoTerminiPagamento: Date?
-    let giorniTerminiPagamento: Int?
-    let dataScadenzaPagamento: Date?
-    let importoPagamento: Double
-    let codUfficioPostale: String?
-    let cognomeQuietanzante: String?
-    let nomeQuietanzante: String?
-    let cfQuietanzante: String?
-    let titoloQuietanzante: String?
-    let istitutoFinanziario: String?
-    let iban: String?
-    let abi: Int?
-    let cab: Int?
-    let bic: String?
-    let scontoPagamentoAnticipato: Double?
-    let dataLimitePagamentoAnticipato: Date?
-    let penalitaPagamentiRitardati: Double?
-    let dataDecorrenzaPenale: Date?
-    let codicePagamento: String?
+   public let beneficiario: String?
+   public let modalitaPagamento: ModalitaPagamento
+   public let dataRiferimentoTerminiPagamento: Date?
+   public let giorniTerminiPagamento: Int?
+   public let dataScadenzaPagamento: Date?
+   public let importoPagamento: Double
+   public let codUfficioPostale: String?
+   public let cognomeQuietanzante: String?
+   public let nomeQuietanzante: String?
+   public let cfQuietanzante: String?
+   public let titoloQuietanzante: String?
+   public let istitutoFinanziario: String?
+   public let iban: String?
+   public let abi: Int?
+   public let cab: Int?
+   public let bic: String?
+   public let scontoPagamentoAnticipato: Double?
+   public let dataLimitePagamentoAnticipato: Date?
+   public let penalitaPagamentiRitardati: Double?
+   public let dataDecorrenzaPenale: Date?
+   public let codicePagamento: String?
     
     enum CodingKeys: String, CodingKey{
         case beneficiario = "Beneficiario"
@@ -872,11 +872,11 @@ public enum CondizioniPagamento: String, Codable {
 
 // MARK: - 2.5 <Allegati>
 public struct Allegati: Codable {
-    let nomeAttachment: String
-    let algoritmoCompressione: String?
-    let formatoAttachment: String?
-    let descrizioneAttachment: String?
-    let attachment: String
+   public let nomeAttachment: String
+   public let algoritmoCompressione: String?
+   public let formatoAttachment: String?
+   public let descrizioneAttachment: String?
+   public let attachment: String
     
     enum CodingKeys: String, CodingKey{
         case nomeAttachment = "NomeAttachment"
