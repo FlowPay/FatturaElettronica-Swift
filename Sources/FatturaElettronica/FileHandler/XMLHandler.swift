@@ -24,12 +24,12 @@ public class XMLHandler{
     let eventLoop: EventLoop
     let decoder = XMLDecoder()
 
-    convenience init() {
+    public convenience init() {
         let loop = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount).next()
         self.init(on: loop)
     }
     
-    init(on loop: EventLoop){
+    public init(on loop: EventLoop){
         self.eventLoop = loop
         self.decoder.shouldProcessNamespaces = true
         
