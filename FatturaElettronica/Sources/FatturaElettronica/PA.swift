@@ -1,9 +1,28 @@
 //
 //  Created by Federico Giuntoli on 29/08/20.
-//  Updated by Andrea Pini on 09/10/20
 //
 
 import Foundation
+
+extension Array where Element: Codable {
+    init(from decoder: Decoder) throws {
+        
+        if let many = try? decoder.singleValueContainer().decode([Element].self){
+            self = many
+            return
+        }
+        
+        if let one = try? decoder.singleValueContainer().decode(Element.self){
+            self = [one]
+            return
+        }
+        
+        throw DecodingError.missingValue
+    }
+    enum DecodingError: Error {
+        case missingValue
+    }
+}
 
 // MARK: - Entità in comune
 
@@ -95,8 +114,8 @@ public struct FatturaElettronica: Codable {
         case fatturaElettronicaHeader = "FatturaElettronicaHeader"
         case fatturaElettronicaBody = "FatturaElettronicaBody"
     }
-    
 }
+
 
 // MARK: - 1 <FatturaElettronicaHeader>
 public struct FatturaElettronicaHeader: Codable {
