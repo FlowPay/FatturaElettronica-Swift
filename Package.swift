@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "FatturaElettronica",
+    name: "FatturaElettronica-Swift",
     platforms: [.macOS(.v10_15)],
     products: [
         .library(
