@@ -59,10 +59,9 @@ public struct IDFiscale: Codable {
 
 public enum Natura: String, Codable {
     case ESCLUSE = "N1"
-    case NONSOGGETTE = "N2" // NON PIU VALIDO DAL GENNAIO 2021
+   
     case NONSOGGETTEADIVA = "N2.1"
     case NONSOGGETTEALTRICASI = "N2.2"
-    case NONIMPONIBILI = "N3" // NON PIU VALIDO DAL GENNAIO 2021
     case NONIMPONIBILIESPORTAZIONI = "N3.1"
     case NONIMPONIBILICESSIONINTRACOMUNITARIE = "N3.2"
     case NONIMPONIBILIVERSOSANMARINO = "N3.3"
@@ -71,7 +70,6 @@ public enum Natura: String, Codable {
     case NONIMPONIBILIALTREOPERAZIONI = "N3.6"
     case ESENTI = "N4"
     case REGIMEDELMARGINE = "N5"
-    case INVERSIONECONTABILE = "N6" // NON PIU VALIDO DAL GENNAIO 2021
     case INVERSIONECONTABILEROTTAMI = "N6.1"
     case INVERSIONECONTABILEOROARGENTO = "N6.2"
     case INVERSIONECONTABILESUBAPPALTODILE = "N6.3"
@@ -82,6 +80,15 @@ public enum Natura: String, Codable {
     case INVERSIONECONTABILESETTORENERGETICO = "N6.8"
     case INVERSIONECONTABILEALTRICASI = "N6.9"
     case IVAASSOLTA = "N7"
+    
+    @available(*, deprecated, message: "NON PIU VALIDO DAL GENNAIO 2021")
+    case NONSOGGETTE = "N2"
+    @available(*, deprecated, message: "NON PIU VALIDO DAL GENNAIO 2021")
+    case NONIMPONIBILI = "N3"
+    @available(*, deprecated, message: "NON PIU VALIDO DAL GENNAIO 2021")
+    case INVERSIONECONTABILE = "N6"
+
+
 }
 
 // MARK: - <FatturaElettronica>
@@ -89,7 +96,7 @@ public struct FatturaElettronica: Codable {
     
     public let fatturaElettronicaHeader: FatturaElettronicaHeader
     public let fatturaElettronicaBody: FatturaElettronicaBody
-    
+
     enum CodingKeys: String, CodingKey{
         case fatturaElettronicaHeader = "FatturaElettronicaHeader"
         case fatturaElettronicaBody = "FatturaElettronicaBody"
