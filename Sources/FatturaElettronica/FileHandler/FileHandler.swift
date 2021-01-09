@@ -53,19 +53,35 @@ extension XMLHandler{
     }
     private func handleZip(_ data: Data) -> EventLoopFuture<FatturaElettronica>{
         
-        self.eventLoop.submit{
-            let uuid = UUID().uuidString
-            let p7mPath = URL(fileURLWithPath: "./\(uuid)")
-            let zip = URL(fileURLWithPath: "./\(uuid).zip")
-            let _ = try data.write(to: zip)
-            return (p7mPath, zip)
-        }.flatMap{ (p7m: URL, zip: URL) in
-            self.unzip(zip).map{ p7m }
-        }.flatMap{
+        let root = "./" + UUID().uuidString + "/"
+        let promise = self.eventLoop.submit{
+            try FileManager.default.createDirectory(atPath: root, withIntermediateDirectories: true)
+            let zip = URL(fileURLWithPath: root + "archive.zip")
+            try data.write(to: zip)
+            return zip
+        }
+        .flatMap{
+            self.unzip($0)
+        }
+        .map{
+            FileManager.default.enumerator(atPath: root)?
+                .allObjects
+                .compactMap {$0 as? String }
+                .filter{ $0.hasSuffix(".p7m") }
+                .map { URL(fileURLWithPath: root + $0) }
+                .first
+        }
+        .unwrap(orError: NSError())
+        .flatMap{
             self.decryptP7M(filePath: $0)
         }.flatMap{
             self.xmlToInvoice($0)
         }
         
+        promise.whenComplete{ _ in
+            try? FileManager.default.removeItem(atPath: root)
+        }
+        
+        return promise
     }
 }

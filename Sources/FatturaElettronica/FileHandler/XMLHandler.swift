@@ -90,8 +90,8 @@ public class XMLHandler{
             let promise = loop.makePromise(of: Void.self)
             
             let path = url.absoluteString.replacingOccurrences(of: "file://", with: "")
-            _ = loop.submit{
-                _ = self.shell(command: "unzip -o \(path)")
+            loop.submit{
+                _ = self.shell(command: "unzip -o \(path) -d \(url.pathComponents.dropLast().joined(separator: "/"))")
                 promise.succeed(())
             }.cascadeFailure(to: promise)
             
@@ -102,7 +102,7 @@ public class XMLHandler{
             let loop = self.eventLoop.next()
             let promise = loop.makePromise(of: String.self)
             
-            _ = loop.submit{
+            loop.submit{
                 
                 let p7mPath = path.absoluteString.replacingOccurrences(of: "file://", with: "")
                 

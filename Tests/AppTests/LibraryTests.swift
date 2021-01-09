@@ -33,15 +33,15 @@ final class LibraryTests: XCTestCase {
     func testFPA01() throws{
         
         let exp = expectation(description: "Testing FPA01")
-//        let path = Bundle.main.path(forResource: "./mock/PA02", ofType: "xml")!
-//        let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+        //        let path = Bundle.main.path(forResource: "./mock/PA02", ofType: "xml")!
+        //        let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
         let url = "https://www.fatturapa.gov.it/export/documenti/fatturapa/v1.2/IT01234567890_FPA01.xml"
         
         let handle = self.downloadFile(url).flatMap{
             XMLHandler().handle($0, type: .xml)
         }
-            
-            handle.whenSuccess{
+        
+        handle.whenSuccess{
             print($0)
             exp.fulfill()
         }
@@ -50,6 +50,25 @@ final class LibraryTests: XCTestCase {
             print($0.localizedDescription)
         }
         waitForExpectations(timeout: 5)
+        
+    }
+    
+    func testZIP() throws {
+        let exp = expectation(description: "Testing ZIP")
+        
+        let promise = downloadFile("file://.Tests/AppTests/mock/mocktest.zip")
+            .flatMap{
+                XMLHandler().handle($0, type: .zip)
+            }
+        promise.whenSuccess{
+            print($0)
+            exp.fulfill()
+        }
+        
+        promise.whenFailure{
+            XCTFail($0.localizedDescription)
+        }
+        waitForExpectations(timeout: 500)
         
     }
     
