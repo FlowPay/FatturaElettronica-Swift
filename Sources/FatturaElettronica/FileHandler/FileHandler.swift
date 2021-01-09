@@ -18,6 +18,7 @@ extension XMLHandler{
     
     private enum HandlerError: Error{
         case contentNotValid
+        case fileNotFound
     }
     
     public func handle(_ file: Data, type: FileType) -> EventLoopFuture<FatturaElettronica> {
@@ -41,14 +42,23 @@ extension XMLHandler{
     }
     
     private func handleP7m(_ data: Data) -> EventLoopFuture<FatturaElettronica>{
-        self.eventLoop.submit{
-            let uuid = UUID().uuidString
-            return URL(fileURLWithPath: "./\(uuid)")
+        let root = "./" + UUID().uuidString + "/"
+        let promise = self.eventLoop.submit{
+            try FileManager.default.createDirectory(atPath: root, withIntermediateDirectories: true)
+            let p7m = URL(fileURLWithPath: root + "invoice.xml.p7m")
+            try data.write(to: p7m)
+            return p7m
         }.flatMap{
             self.decryptP7M(filePath: $0)
         }.flatMap{
             self.xmlToInvoice($0)
         }
+        
+        promise.whenComplete{ _ in
+            try? FileManager.default.removeItem(atPath: root)
+        }
+        
+        return promise
         
     }
     private func handleZip(_ data: Data) -> EventLoopFuture<FatturaElettronica>{
@@ -71,7 +81,7 @@ extension XMLHandler{
                 .map { URL(fileURLWithPath: root + $0) }
                 .first
         }
-        .unwrap(orError: NSError())
+        .unwrap(orError: HandlerError.fileNotFound)
         .flatMap{
             self.decryptP7M(filePath: $0)
         }.flatMap{
