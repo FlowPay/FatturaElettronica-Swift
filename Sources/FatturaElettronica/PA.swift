@@ -965,7 +965,7 @@ public struct DettaglioLinee: Codable {
         case numeroLinea = "NumeroLinea"
         case tipoCessionePrestazione = "TipoCessionePrestazione"
         case descrizione = "Descrizione"
-        case quantita = "quantita"
+        case quantita = "Quantita"
         case unitaMisura = "UnitaMisura"
         case dataInizioPeriodo = "DataInizioPeriodo"
         case dataFinePeriodo = "DataFinePeriodo"
