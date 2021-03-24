@@ -44,7 +44,7 @@ public struct Anagrafica: Codable {
         if let value = self.denominazione{
             return value
         }
-        return "\(self.nome!) \(self.cognome!)"
+        return "\(self.nome ?? "") \(self.cognome ?? "")"
     }
     
     public init(denominazione: String?, nome: String?, cognome: String?, codEORI: String?, titolo: String?) {
