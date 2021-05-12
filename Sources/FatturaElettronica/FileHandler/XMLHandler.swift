@@ -43,9 +43,13 @@ public class XMLHandler{
             // Dati generali / Dati Trasporto / Data ora consegna
             else if let date = try? Date(from: string, formatter: "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"){
                 return date
+            } else if let date = try? Date(from: string, formatter: "yyyy-MM-dd'T'HH:mm:ss") {
+                return date
+            } else if let date = ISO8601DateFormatter().date(from: string) {
+                return date
+            } else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "couldn't create a date from \(string)")
             }
-            
-            return ISO8601DateFormatter().date(from: string)!
         }
     }
     
