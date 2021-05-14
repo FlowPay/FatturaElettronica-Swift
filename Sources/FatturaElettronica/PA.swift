@@ -732,6 +732,7 @@ public enum TipoCassa: String, Codable {
     case TC19 = "TC19"
     case TC20 = "TC20"
     case TC21 = "TC21"
+    case TC22 = "TC22"
 }
 
 public struct ScontoMaggiorazione: Codable {
