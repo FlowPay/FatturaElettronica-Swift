@@ -683,7 +683,7 @@ public struct DatiCassaPrevidenziale: Codable {
     public let importoContributoCassa: Double
     public let imponibileCassa: Double?
     public let aliquotaIVA: Double
-    public let ritenuta: Bool?
+    @PABool public var ritenuta: Bool?
     public let natura: Natura?
     public let riferimentoAmministrazione: String?
     
@@ -935,7 +935,7 @@ public struct DettaglioLinee: Codable {
     public let scontoMaggiorazione: [ScontoMaggiorazione]?
     public let prezzoTotale: Double
     public let aliquotaIva: Double
-    public let ritenuta: Bool?
+    @PABool public var ritenuta: Bool?
     public let natura: Natura?
     public let riferimentoAmministrazione: String?
     public let altriDatiGestionali: [AltriDatiGestionali]?
