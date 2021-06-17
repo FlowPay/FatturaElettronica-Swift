@@ -13,14 +13,15 @@ public struct PABool: Codable {
         let container = try decoder.singleValueContainer()
         if let bool = try? container.decode(Bool.self) {
             self.wrappedValue = bool
-        } else {
-            let string = try container.decode(String.self)
+        } else if let string = try? container.decode(String.self) {
+            
             switch string.lowercased() {
             case "si", "true", "s": self.wrappedValue = true
             default: self.wrappedValue = false
             }
+        } else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Impossible to decode Bool")
         }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "Impossible to decode Bool")
     }
 
     public func encode(to encoder: Encoder) throws {
