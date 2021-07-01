@@ -418,19 +418,22 @@ public struct CessionarioCommittenteDatiAnagrafici: Codable {
 
 public struct CessionarioCommittenteRappresentanteFiscale: Codable {
     public let idFiscaleIva: IDFiscale
-    public let codiceFiscale: String
-    public let anagrafica: Anagrafica
+    public let denominazione: String?
+    public let nome: String?
+    public let cognome: String?
     
-    public init(idFiscaleIva: IDFiscale, codiceFiscale: String, anagrafica: Anagrafica) {
+    public init(idFiscaleIva: IDFiscale, denominazione: String?, nome: String?, cognome: String?) {
         self.idFiscaleIva = idFiscaleIva
-        self.codiceFiscale = codiceFiscale
-        self.anagrafica = anagrafica
+        self.denominazione = denominazione
+        self.nome = nome
+        self.cognome = cognome
     }
 
     enum CodingKeys: String, CodingKey{
         case idFiscaleIva = "IdFiscaleIVA"
-        case codiceFiscale = "CodiceFiscale"
-        case anagrafica = "Anagrafica"
+        case denominazione = "Denominazione"
+        case nome = "Nome"
+        case cognome = "Cognome"
     }
 }
 
