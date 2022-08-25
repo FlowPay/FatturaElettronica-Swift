@@ -84,7 +84,7 @@ public class XMLHandler{
         self.encoder.dataEncodingStrategy = .base64
         self.encoder.outputFormatting = .prettyPrinted
         self.encoder.prettyPrintIndentation = .spaces(4)
-        self.encoder.stringEncodingStrategy = .cdata
+        self.encoder.stringEncodingStrategy = .deferredToString
     }
     
     func invoiceToXML(_ invoice: FatturaElettronica) throws -> Data {
