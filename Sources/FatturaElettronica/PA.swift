@@ -7,12 +7,12 @@ import Foundation
 // MARK: - Entità in comune
 
 public struct Indirizzo: Codable {
-    public let indirizzo: String
-    public let numeroCivico: String?
-    public let cap: Int
-    public let comune: String
-    public let provincia: String?
-    public let nazione: String
+    public var indirizzo: String
+    public var numeroCivico: String?
+    public var cap: Int
+    public var comune: String
+    public var provincia: String?
+    public var nazione: String
     
     public init(indirizzo: String, numeroCivico: String?, cap: Int, comune: String, provincia: String?, nazione: String) {
         self.indirizzo = indirizzo
@@ -31,14 +31,33 @@ public struct Indirizzo: Codable {
         case provincia = "provincia"
         case nazione = "nazione"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case indirizzo = "Indirizzo"
+        case numeroCivico =  "NumeroCivico"
+        case cap = "CAP"
+        case comune = "Comune"
+        case provincia = "Provincia"
+        case nazione = "Nazione"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.indirizzo, forKey: .indirizzo)
+        try container.encode(self.numeroCivico, forKey: .numeroCivico)
+        try container.encode(self.cap, forKey: .cap)
+        try container.encode(self.comune, forKey: .comune)
+        try container.encodeIfPresent(self.provincia, forKey: .provincia)
+        try container.encode(self.nazione, forKey: .nazione)
+    }
 }
 
 public struct Anagrafica: Codable {
-    public let denominazione: String?
-    public let nome: String?
-    public let cognome: String?
-    public let codEORI: String?
-    public let titolo: String?
+    public var denominazione: String?
+    public var nome: String?
+    public var cognome: String?
+    public var codEORI: String?
+    public var titolo: String?
     
     public var anagrafica: String {
         if let value = self.denominazione{
@@ -62,11 +81,28 @@ public struct Anagrafica: Codable {
         case codEORI = "codeori"
         case titolo = "titolo"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case denominazione = "Denominazione"
+        case nome = "Nome"
+        case cognome = "Cognome"
+        case codEORI = "CodEORI"
+        case titolo = "Titolo"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.denominazione, forKey: .denominazione)
+        try container.encodeIfPresent(self.nome, forKey: .nome)
+        try container.encodeIfPresent(self.cognome, forKey: .cognome)
+        try container.encodeIfPresent(self.codEORI, forKey: .codEORI)
+        try container.encodeIfPresent(self.titolo, forKey: .titolo)
+    }
 }
 
 public struct IDFiscale: Codable {
-    public let idPaese: String
-    public let idCodice: String
+    public var idPaese: String
+    public var idCodice: String
     
     public init(idPaese: String, idCodice: String) {
         self.idPaese = idPaese
@@ -76,6 +112,17 @@ public struct IDFiscale: Codable {
     enum CodingKeys: String, CodingKey{
         case idPaese = "idpaese"
         case idCodice = "idcodice"
+    }
+
+    enum EncodableKeys: String, CodingKey {
+        case idPaese = "IdPaese"
+        case idCodice = "IdCodice"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.idPaese, forKey: .idPaese)
+        try container.encode(self.idCodice, forKey: .idCodice)
     }
 }
 
@@ -116,8 +163,8 @@ public enum Natura: String, Codable {
 // MARK: - <FatturaElettronica>
 public struct FatturaElettronica: Codable {
     
-    public let fatturaElettronicaHeader: FatturaElettronicaHeader
-    public let fatturaElettronicaBody: FatturaElettronicaBody
+    public var fatturaElettronicaHeader: FatturaElettronicaHeader
+    public var fatturaElettronicaBody: FatturaElettronicaBody
 
     public init(fatturaElettronicaHeader: FatturaElettronicaHeader, fatturaElettronicaBody: FatturaElettronicaBody) {
         self.fatturaElettronicaHeader = fatturaElettronicaHeader
@@ -128,17 +175,28 @@ public struct FatturaElettronica: Codable {
         case fatturaElettronicaHeader = "fatturaelettronicaheader"
         case fatturaElettronicaBody = "fatturaelettronicabody"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case fatturaElettronicaHeader = "FatturaElettronicaHeader"
+        case fatturaElettronicaBody = "FatturaElettronicaBody"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.fatturaElettronicaHeader, forKey: .fatturaElettronicaHeader)
+        try container.encode(self.fatturaElettronicaBody, forKey: .fatturaElettronicaBody)
+    }
 }
 
 
 // MARK: - 1 <FatturaElettronicaHeader>
 public struct FatturaElettronicaHeader: Codable {
-    public let datiTrasmissione: DatiTrasmissione
-    public let cedentePrestatore: CedentePrestatore
-    public let rappresentanteFiscale: RappresentanteFiscale?
-    public let cessionarioCommittente: CessionarioCommittente
-    public let terzoIntermediarioOSoggettoEmittente: TerzoIntermediarioSoggettoEmittente?
-    public let soggettoEmittente: SoggettoEmittente?
+    public var datiTrasmissione: DatiTrasmissione
+    public var cedentePrestatore: CedentePrestatore
+    public var rappresentanteFiscale: RappresentanteFiscale?
+    public var cessionarioCommittente: CessionarioCommittente
+    public var terzoIntermediarioOSoggettoEmittente: TerzoIntermediarioSoggettoEmittente?
+    public var soggettoEmittente: SoggettoEmittente?
     
     public init(datiTrasmissione: DatiTrasmissione, cedentePrestatore: CedentePrestatore, rappresentanteFiscale: RappresentanteFiscale?, cessionarioCommittente: CessionarioCommittente, terzoIntermediarioOSoggettoEmittente: TerzoIntermediarioSoggettoEmittente?, soggettoEmittente: SoggettoEmittente?) {
         self.datiTrasmissione = datiTrasmissione
@@ -157,16 +215,35 @@ public struct FatturaElettronicaHeader: Codable {
         case terzoIntermediarioOSoggettoEmittente = "terzointermediarioosoggettoemittente"
         case soggettoEmittente = "soggettoemittente"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case datiTrasmissione = "DatiTrasmissione"
+        case cedentePrestatore = "CedentePrestatore"
+        case rappresentanteFiscale = "RappresentanteFiscale"
+        case cessionarioCommittente = "CessionarioCommittente"
+        case terzoIntermediarioOSoggettoEmittente = "TerzoIntermediarioOSoggettoEmittente"
+        case soggettoEmittente = "SoggettoEmittente"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.datiTrasmissione, forKey: .datiTrasmissione)
+        try container.encode(self.cedentePrestatore, forKey: .cedentePrestatore)
+        try container.encodeIfPresent(self.rappresentanteFiscale, forKey: .rappresentanteFiscale)
+        try container.encode(self.cessionarioCommittente, forKey: .cessionarioCommittente)
+        try container.encodeIfPresent(self.terzoIntermediarioOSoggettoEmittente, forKey: .terzoIntermediarioOSoggettoEmittente)
+        try container.encodeIfPresent(self.soggettoEmittente, forKey: .soggettoEmittente)
+    }
 }
 
 // MARK: - 1.1 <DatiTrasmissione>
 public struct DatiTrasmissione: Codable {
-    public let idTrasmittente: IDFiscale
-    public let progressivoInvio: String
-    public let formatoTrasmissione: FormatoTrasmissione
-    public let codiceDestinatario: String
-    public let contattiTrasmittente: ContattiTrasmittente?
-    public let pecDestinatario: String?
+    public var idTrasmittente: IDFiscale
+    public var progressivoInvio: String
+    public var formatoTrasmissione: FormatoTrasmissione
+    public var codiceDestinatario: String
+    public var contattiTrasmittente: ContattiTrasmittente?
+    public var pecDestinatario: String?
     
     public init(idTrasmittente: IDFiscale, progressivoInvio: String, formatoTrasmissione: FormatoTrasmissione, codiceDestinatario: String, contattiTrasmittente: ContattiTrasmittente?, pecDestinatario: String?) {
         self.idTrasmittente = idTrasmittente
@@ -185,6 +262,25 @@ public struct DatiTrasmissione: Codable {
         case contattiTrasmittente = "contattitrasmittente"
         case pecDestinatario = "pecdestinatario"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case idTrasmittente = "IdTrasmittente"
+        case progressivoInvio = "ProgressivoInvio"
+        case formatoTrasmissione = "FormatoTrasmissione"
+        case codiceDestinatario = "CodiceDestinatario"
+        case contattiTrasmittente = "ContattiTrasmittente"
+        case pecDestinatario = "PECDestinatario"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.idTrasmittente, forKey: .idTrasmittente)
+        try container.encode(self.progressivoInvio, forKey: .progressivoInvio)
+        try container.encode(self.formatoTrasmissione, forKey: .formatoTrasmissione)
+        try container.encode(self.codiceDestinatario, forKey: .codiceDestinatario)
+        try container.encodeIfPresent(self.contattiTrasmittente, forKey: .contattiTrasmittente)
+        try container.encodeIfPresent(self.pecDestinatario, forKey: .pecDestinatario)
+    }
 }
 
 public enum FormatoTrasmissione: String, Codable {
@@ -193,8 +289,8 @@ public enum FormatoTrasmissione: String, Codable {
 }
 
 public struct ContattiTrasmittente: Codable {
-    public let telefono: String?
-    public let email: String?
+    public var telefono: String?
+    public var email: String?
     
     public init(telefono: String?, email: String?) {
         self.telefono = telefono
@@ -205,16 +301,27 @@ public struct ContattiTrasmittente: Codable {
         case telefono = "telefono"
         case email = "email"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case telefono = "Telefono"
+        case email = "Email"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.telefono, forKey: .telefono)
+        try container.encodeIfPresent(self.email, forKey: .email)
+    }
 }
 
 // MARK: - 1.2 <CedentePrestatore>
 public struct CedentePrestatore: Codable {
-    public let datiAnagrafici: CedentePrestatoreDatiAnagrafici
-    public let sede: Indirizzo
-    public let stabileOrganizzazione: Indirizzo?
-    public let iscrizioneREA: IscrizioneREA?
-    public let contatti: Contatti?
-    public let riferimentoAmministrazione: String?
+    public var datiAnagrafici: CedentePrestatoreDatiAnagrafici
+    public var sede: Indirizzo
+    public var stabileOrganizzazione: Indirizzo?
+    public var iscrizioneREA: IscrizioneREA?
+    public var contatti: Contatti?
+    public var riferimentoAmministrazione: String?
     
     public init(datiAnagrafici: CedentePrestatoreDatiAnagrafici, sede: Indirizzo, stabileOrganizzazione: Indirizzo?, iscrizioneREA: IscrizioneREA?, contatti: Contatti?, riferimentoAmministrazione: String?) {
         self.datiAnagrafici = datiAnagrafici
@@ -232,19 +339,37 @@ public struct CedentePrestatore: Codable {
         case iscrizioneREA = "iscrizionerea"
         case contatti = "contatti"
         case riferimentoAmministrazione = "riferimentoamministrazione"
-        
+    }
+
+    enum EncodableKeys: String, CodingKey {
+        case datiAnagrafici = "DatiAnagrafici"
+        case sede = "Sede"
+        case stabileOrganizzazione = "StabileOrganizzazione"
+        case iscrizioneREA = "IscrizioneREA"
+        case contatti = "Contatti"
+        case riferimentoAmministrazione = "RiferimentoAmministrazione"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.datiAnagrafici, forKey: .datiAnagrafici)
+        try container.encode(self.sede, forKey: .sede)
+        try container.encodeIfPresent(self.stabileOrganizzazione, forKey: .stabileOrganizzazione)
+        try container.encodeIfPresent(self.iscrizioneREA, forKey: .iscrizioneREA)
+        try container.encodeIfPresent(self.contatti, forKey: .contatti)
+        try container.encodeIfPresent(self.riferimentoAmministrazione, forKey: .riferimentoAmministrazione)
     }
 }
 
 public struct CedentePrestatoreDatiAnagrafici: Codable {
-    public let idFiscaleIva: IDFiscale
-    public let anagrafica: Anagrafica
-    public let regimeFiscale: RegimeFiscale
-    public let codiceFiscale: String?
-    public let alboProfessionale: String?
-    public let provinciaAlbo: String?
-    public let numeroIscrizioneAlbo: String?
-    public let dataIscrizioAlbo: String?
+    public var idFiscaleIva: IDFiscale
+    public var anagrafica: Anagrafica
+    public var regimeFiscale: RegimeFiscale
+    public var codiceFiscale: String?
+    public var alboProfessionale: String?
+    public var provinciaAlbo: String?
+    public var numeroIscrizioneAlbo: String?
+    public var dataIscrizioAlbo: String?
     
     public init(idFiscaleIva: IDFiscale, anagrafica: Anagrafica, regimeFiscale: RegimeFiscale, codiceFiscale: String?, alboProfessionale: String?, provinciaAlbo: String?, numeroIscrizioneAlbo: String?, dataIscrizioAlbo: String?) {
         self.idFiscaleIva = idFiscaleIva
@@ -265,17 +390,39 @@ public struct CedentePrestatoreDatiAnagrafici: Codable {
         case codiceFiscale = "codicefiscale"
         case alboProfessionale = "alboprofessionale"
         case numeroIscrizioneAlbo = "numeroiscrizionealbo"
-        case dataIscrizioAlbo = "dataiscrizioalbo"
-        
+        case dataIscrizioAlbo = "dataiscrizioalbo" 
+    }
+
+    enum EncodableKeys: String, CodingKey {
+        case idFiscaleIva = "IdFiscaleIVA"
+        case anagrafica = "Anagrafica"
+        case regimeFiscale = "RegimeFiscale"
+        case codiceFiscale = "CodiceFiscale"
+        case alboProfessionale = "AlboProfessionale"
+        case provinciaAlbo = "ProvinciaAlbo"
+        case numeroIscrizioneAlbo = "NumeroIscrizioneAlbo"
+        case dataIscrizioAlbo = "DataIscrizioneAlbo"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.idFiscaleIva, forKey: .idFiscaleIva)
+        try container.encode(self.anagrafica, forKey: .anagrafica)
+        try container.encode(self.regimeFiscale, forKey: .regimeFiscale)
+        try container.encodeIfPresent(self.codiceFiscale, forKey: .codiceFiscale)
+        try container.encodeIfPresent(self.alboProfessionale, forKey: .alboProfessionale)
+        try container.encodeIfPresent(self.provinciaAlbo, forKey: .provinciaAlbo)
+        try container.encodeIfPresent(self.numeroIscrizioneAlbo, forKey: .numeroIscrizioneAlbo)
+        try container.encodeIfPresent(self.dataIscrizioAlbo, forKey: .dataIscrizioAlbo)
     }
 }
 
 public struct IscrizioneREA: Codable {
-    public let ufficio : String
-    public let numeroREA: String
-    public let capitaleSociale: Double?
-    public let socioUnico: SocioUnico?
-    public let statoLiquidazione: StatoLiquidazione
+    public var ufficio : String
+    public var numeroREA: String
+    public var capitaleSociale: Double?
+    public var socioUnico: SocioUnico?
+    public var statoLiquidazione: StatoLiquidazione
     
     public init(ufficio: String, numeroREA: String, capitaleSociale: Double?, socioUnico: SocioUnico?, statoLiquidazione: StatoLiquidazione) {
         self.ufficio = ufficio
@@ -292,6 +439,14 @@ public struct IscrizioneREA: Codable {
         case socioUnico = "sociounico"
         case statoLiquidazione = "statoliquidazione"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case ufficio = "Ufficio"
+        case numeroREA = "NumeroREA"
+        case capitaleSociale = "CapitaleSociale"
+        case socioUnico = "SocioUnico"
+        case statoLiquidazione = "StatoLiquidazione"
+    }
 }
 
 public enum StatoLiquidazione: String, Codable {
@@ -305,9 +460,9 @@ public enum SocioUnico: String, Codable {
 }
 
 public struct Contatti: Codable {
-    public let telefono : String?
-    public let fax: String?
-    public let email: String?
+    public var telefono : String?
+    public var fax: String?
+    public var email: String?
     
     public init(telefono: String?, fax: String?, email: String?) {
         self.telefono = telefono
@@ -319,6 +474,19 @@ public struct Contatti: Codable {
         case telefono = "telefono"
         case fax =  "fax"
         case email = "email"
+    }
+
+    enum EncodableKeys: String, CodingKey {
+        case telefono = "Telefono"
+        case fax = "Fax"
+        case email = "Email"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.telefono, forKey: .telefono)
+        try container.encodeIfPresent(self.fax, forKey: .fax)
+        try container.encodeIfPresent(self.email, forKey: .email)
     }
 }
 
@@ -347,7 +515,7 @@ public enum RegimeFiscale: String, Codable {
 
 // MARK: - 1.3 <RappresentateFiscale>
 public struct RappresentanteFiscale: Codable {
-    public let datiAnagrafici: DatiAnagraficiRappresentante
+    public var datiAnagrafici: DatiAnagraficiRappresentante
     
     public init(datiAnagrafici: DatiAnagraficiRappresentante) {
         self.datiAnagrafici = datiAnagrafici
@@ -356,12 +524,21 @@ public struct RappresentanteFiscale: Codable {
     enum CodingKeys: String, CodingKey{
         case datiAnagrafici = "datianagrafici"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case datiAnagrafici = "DatiAnagrafici"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.datiAnagrafici, forKey: .datiAnagrafici)
+    }
 }
 
 public struct DatiAnagraficiRappresentante: Codable {
-    public let idFiscaleIva: IDFiscale
-    public let codiceFiscale: String?
-    public let anagrafica: Anagrafica
+    public var idFiscaleIva: IDFiscale
+    public var codiceFiscale: String?
+    public var anagrafica: Anagrafica
     
     public init(idFiscaleIva: IDFiscale, codiceFiscale: String?, anagrafica: Anagrafica) {
         self.idFiscaleIva = idFiscaleIva
@@ -374,14 +551,27 @@ public struct DatiAnagraficiRappresentante: Codable {
         case codiceFiscale = "codicefiscale"
         case anagrafica = "anagrafica"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case idFiscaleIva = "IdFiscaleIVA"
+        case codiceFiscale = "CodiceFiscale"
+        case anagrafica = "Anagrafica"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.idFiscaleIva, forKey: .idFiscaleIva)
+        try container.encodeIfPresent(self.codiceFiscale, forKey: .codiceFiscale)
+        try container.encode(self.anagrafica, forKey: .anagrafica)
+    }
 }
 
 // MARK: - 1.4 <CessionarioCommittente>
 public struct CessionarioCommittente: Codable {
-    public let datiAnagrafici: CessionarioCommittenteDatiAnagrafici
-    public let sede: Indirizzo
-    public let stabileOrganizzazione: Indirizzo?
-    public let rappresentanteFiscale: CessionarioCommittenteRappresentanteFiscale?
+    public var datiAnagrafici: CessionarioCommittenteDatiAnagrafici
+    public var sede: Indirizzo
+    public var stabileOrganizzazione: Indirizzo?
+    public var rappresentanteFiscale: CessionarioCommittenteRappresentanteFiscale?
     
     public init(datiAnagrafici: CessionarioCommittenteDatiAnagrafici, sede: Indirizzo, stabileOrganizzazione: Indirizzo?, rappresentanteFiscale: CessionarioCommittenteRappresentanteFiscale?) {
         self.datiAnagrafici = datiAnagrafici
@@ -396,12 +586,27 @@ public struct CessionarioCommittente: Codable {
         case stabileOrganizzazione = "stabileorganizzazione"
         case rappresentanteFiscale = "rappresentantefiscale"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case datiAnagrafici = "DatiAnagrafici"
+        case sede = "Sede"
+        case stabileOrganizzazione = "StabileOrganizzazione"
+        case rappresentanteFiscale = "RappresentanteFiscale"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.datiAnagrafici, forKey: .datiAnagrafici)
+        try container.encode(self.sede, forKey: .sede)
+        try container.encodeIfPresent(self.stabileOrganizzazione, forKey: .stabileOrganizzazione)
+        try container.encodeIfPresent(self.rappresentanteFiscale, forKey: .rappresentanteFiscale)
+    }
 }
 
 public struct CessionarioCommittenteDatiAnagrafici: Codable {
-    public let idFiscaleIva: IDFiscale?
-    public let codiceFiscale: String?
-    public let anagrafica: Anagrafica
+    public var idFiscaleIva: IDFiscale?
+    public var codiceFiscale: String?
+    public var anagrafica: Anagrafica
     
     public init(idFiscaleIva: IDFiscale?, codiceFiscale: String?, anagrafica: Anagrafica) {
         self.idFiscaleIva = idFiscaleIva
@@ -414,13 +619,26 @@ public struct CessionarioCommittenteDatiAnagrafici: Codable {
         case codiceFiscale = "codicefiscale"
         case anagrafica = "anagrafica"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case idFiscaleIva = "IdFiscaleIVA"
+        case codiceFiscale = "CodiceFiscale"
+        case anagrafica = "Anagrafica"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.idFiscaleIva, forKey: .idFiscaleIva)
+        try container.encodeIfPresent(self.codiceFiscale, forKey: .codiceFiscale)
+        try container.encode(self.anagrafica, forKey: .anagrafica)
+    }
 }
 
 public struct CessionarioCommittenteRappresentanteFiscale: Codable {
-    public let idFiscaleIva: IDFiscale
-    public let denominazione: String?
-    public let nome: String?
-    public let cognome: String?
+    public var idFiscaleIva: IDFiscale
+    public var denominazione: String?
+    public var nome: String?
+    public var cognome: String?
     
     public init(idFiscaleIva: IDFiscale, denominazione: String?, nome: String?, cognome: String?) {
         self.idFiscaleIva = idFiscaleIva
@@ -435,11 +653,26 @@ public struct CessionarioCommittenteRappresentanteFiscale: Codable {
         case nome = "nome"
         case cognome = "cognome"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case idFiscaleIva = "IdFiscaleIVA"
+        case denominazione = "Denominazione"
+        case nome = "Nome"
+        case cognome = "Cognome"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.idFiscaleIva, forKey: .idFiscaleIva)
+        try container.encodeIfPresent(self.denominazione, forKey: .denominazione)
+        try container.encodeIfPresent(self.nome, forKey: .nome)
+        try container.encodeIfPresent(self.cognome, forKey: .cognome)
+    }
 }
 
 // MARK: - 1.5 <TerzoIntermediarioOSoggettoEmittente>
 public struct TerzoIntermediarioSoggettoEmittente: Codable {
-    public let datiAnagrafici: DatiAnagraficiTerzoIntermediario
+    public var datiAnagrafici: DatiAnagraficiTerzoIntermediario
     
     public init(datiAnagrafici: DatiAnagraficiTerzoIntermediario) {
         self.datiAnagrafici = datiAnagrafici
@@ -448,12 +681,21 @@ public struct TerzoIntermediarioSoggettoEmittente: Codable {
     enum CodingKeys: String, CodingKey{
         case datiAnagrafici = "datianagrafici"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case datiAnagrafici = "DatiAnagrafici"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.datiAnagrafici, forKey: .datiAnagrafici)
+    }
 }
 
 public struct DatiAnagraficiTerzoIntermediario: Codable {
-    public let idFiscaleIva: IDFiscale?
-    public let codiceFiscale: String?
-    public let anagrafica: Anagrafica
+    public var idFiscaleIva: IDFiscale?
+    public var codiceFiscale: String?
+    public var anagrafica: Anagrafica
     
     public init(idFiscaleIva: IDFiscale?, codiceFiscale: String?, anagrafica: Anagrafica) {
         self.idFiscaleIva = idFiscaleIva
@@ -466,6 +708,19 @@ public struct DatiAnagraficiTerzoIntermediario: Codable {
         case codiceFiscale = "codicefiscale"
         case anagrafica = "anagrafica"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case idFiscaleIva = "IdFiscaleIVA"
+        case codiceFiscale = "CodiceFiscale"
+        case anagrafica = "Anagrafica"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.idFiscaleIva, forKey: .idFiscaleIva)
+        try container.encodeIfPresent(self.codiceFiscale, forKey: .codiceFiscale)
+        try container.encode(self.anagrafica, forKey: .anagrafica)
+    }
 }
 
 // MARK: - 1.6 <SoggettoEmittente>
@@ -477,11 +732,11 @@ public enum SoggettoEmittente: String, Codable {
 // MARK: - 2 <FatturaElettronicaBody>
 public struct FatturaElettronicaBody: Codable {
     
-    public let datiGenerali: DatiGenerali
-    public let datiBeniServizi: DatiBeniServizi
-    public let datiVeicoli: DatiVeicoli?
+    public var datiGenerali: DatiGenerali
+    public var datiBeniServizi: DatiBeniServizi
+    public var datiVeicoli: DatiVeicoli?
     public var datiPagamento: [DatiPagamento] = []
-    public let allegati: [Allegati]?
+    public var allegati: [Allegati]?
     
     public init(datiGenerali: DatiGenerali, datiBeniServizi: DatiBeniServizi, datiVeicoli: DatiVeicoli?, datiPagamento: [DatiPagamento] = [], allegati: [Allegati]?) {
         self.datiGenerali = datiGenerali
@@ -498,20 +753,37 @@ public struct FatturaElettronicaBody: Codable {
         case datiBeniServizi = "datibeniservizi"
         case datiVeicoli = "dativeicoli"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case allegati = "Allegati"
+        case datiPagamento = "DatiPagamento"
+        case datiGenerali = "DatiGenerali"
+        case datiBeniServizi = "DatiBeniServizi"
+        case datiVeicoli = "DatiVeicoli"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.allegati, forKey: .allegati)
+        try container.encode(self.datiPagamento, forKey: .datiPagamento)
+        try container.encode(self.datiGenerali, forKey: .datiGenerali)
+        try container.encode(self.datiBeniServizi, forKey: .datiBeniServizi)
+        try container.encodeIfPresent(self.datiVeicoli, forKey: .datiVeicoli)
+    }
 }
 
 // MARK: - 2.1 <DatiGenerali>
 public struct DatiGenerali: Codable {
-    public let datiGeneraliDocumento: DatiGeneraliDocumento
-    public let datiOrdineAcquisto: [DatiDocumentiCorrelati]?
-    public let datiContratto: [DatiDocumentiCorrelati]?
-    public let datiConvenzione: [DatiDocumentiCorrelati]?
-    public let datiRicezione: [DatiDocumentiCorrelati]?
-    public let datiFattureCollegate: [DatiDocumentiCorrelati]?
-    public let datiSal: [DatiSAL]?
-    public let datiDdt: [DatiDDT]?
-    public let datiTrasporto: DatiTrasporto?
-    public let fatturaPrincipale: FatturaPrincipale?
+    public var datiGeneraliDocumento: DatiGeneraliDocumento
+    public var datiOrdineAcquisto: [DatiDocumentiCorrelati]?
+    public var datiContratto: [DatiDocumentiCorrelati]?
+    public var datiConvenzione: [DatiDocumentiCorrelati]?
+    public var datiRicezione: [DatiDocumentiCorrelati]?
+    public var datiFattureCollegate: [DatiDocumentiCorrelati]?
+    public var datiSal: [DatiSAL]?
+    public var datiDdt: [DatiDDT]?
+    public var datiTrasporto: DatiTrasporto?
+    public var fatturaPrincipale: FatturaPrincipale?
     
     public init(datiGeneraliDocumento: DatiGeneraliDocumento, datiOrdineAcquisto: [DatiDocumentiCorrelati]?, datiContratto: [DatiDocumentiCorrelati]?, datiConvenzione: [DatiDocumentiCorrelati]?, datiRicezione: [DatiDocumentiCorrelati]?, datiFattureCollegate: [DatiDocumentiCorrelati]?, datiSal: [DatiSAL]?, datiDdt: [DatiDDT]?, datiTrasporto: DatiTrasporto?, fatturaPrincipale: FatturaPrincipale?) {
         self.datiGeneraliDocumento = datiGeneraliDocumento
@@ -538,21 +810,48 @@ public struct DatiGenerali: Codable {
         case datiTrasporto = "datitrasporto"
         case fatturaPrincipale = "fatturaprincipale"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case datiGeneraliDocumento = "DatiGeneraliDocumento"
+        case datiOrdineAcquisto = "DatiOrdineAcquisto"
+        case datiContratto = "DatiContratto"
+        case datiConvenzione = "DatiConvenzione"
+        case datiRicezione = "DatiRicezione"
+        case datiFattureCollegate = "DatiFattureCollegate"
+        case datiSal = "DatiSAL"
+        case datiDdt = "DatiDDT"
+        case datiTrasporto = "DatiTrasporto"
+        case fatturaPrincipale = "FatturaPrincipale"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.datiGeneraliDocumento, forKey: .datiGeneraliDocumento)
+        try container.encodeIfPresent(self.datiOrdineAcquisto, forKey: .datiOrdineAcquisto)
+        try container.encodeIfPresent(self.datiContratto, forKey: .datiContratto)
+        try container.encodeIfPresent(self.datiConvenzione, forKey: .datiConvenzione)
+        try container.encodeIfPresent(self.datiRicezione, forKey: .datiRicezione)
+        try container.encodeIfPresent(self.datiFattureCollegate, forKey: .datiFattureCollegate)
+        try container.encodeIfPresent(self.datiSal, forKey: .datiSal)
+        try container.encodeIfPresent(self.datiDdt, forKey: .datiDdt)
+        try container.encodeIfPresent(self.datiTrasporto, forKey: .datiTrasporto)
+        try container.encodeIfPresent(self.fatturaPrincipale, forKey: .fatturaPrincipale)
+    }
 }
 
 public struct DatiGeneraliDocumento: Codable {
-    public let tipoDocumento: TipoDocumento
-    public let divisa: String
-    public let data: Date
-    public let numero: String
-    public let datiRitenuta: [DatiRitenuta]?
-    public let datiBollo: DatiBollo?
-    public let datiCassaPrevidenziale: [DatiCassaPrevidenziale]?
-    public let scontoMaggiorazione: [ScontoMaggiorazione]?
-    public let importoTotaleDocumento: Double?
-    public let arrotondamento: Double?
-    public let causale: [String]?
-    public let art73: String?
+    public var tipoDocumento: TipoDocumento
+    public var divisa: String
+    public var data: Date
+    public var numero: String
+    public var datiRitenuta: [DatiRitenuta]?
+    public var datiBollo: DatiBollo?
+    public var datiCassaPrevidenziale: [DatiCassaPrevidenziale]?
+    public var scontoMaggiorazione: [ScontoMaggiorazione]?
+    public var importoTotaleDocumento: Double?
+    public var arrotondamento: Double?
+    public var causale: [String]?
+    public var art73: String?
     
     public init(tipoDocumento: TipoDocumento, divisa: String, data: Date, numero: String, datiRitenuta: [DatiRitenuta]?, datiBollo: DatiBollo?, datiCassaPrevidenziale: [DatiCassaPrevidenziale]?, scontoMaggiorazione: [ScontoMaggiorazione]?, importoTotaleDocumento: Double?, arrotondamento: Double?, causale: [String]?, art73: String?) {
         self.tipoDocumento = tipoDocumento
@@ -583,6 +882,38 @@ public struct DatiGeneraliDocumento: Codable {
         case causale = "causale"
         case art73 = "art73"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case tipoDocumento = "TipoDocumento"
+        case divisa = "Divisa"
+        case data = "Data"
+        case numero = "Numero"
+        case datiRitenuta = "DatiRitenuta"
+        case datiBollo = "DatiBollo"
+        case datiCassaPrevidenziale = "DatiCassaPrevidenziale"
+        case scontoMaggiorazione = "ScontoMaggiorazione"
+        case importoTotaleDocumento = "ImportoTotaleDocumento"
+        case arrotondamento = "Arrotondamento"
+        case causale = "Causale"
+        case art73 = "Art73"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.tipoDocumento, forKey: .tipoDocumento)
+        try container.encode(self.divisa, forKey: .divisa)
+        try container.encode(self.data, forKey: .data)
+        try container.encode(self.numero, forKey: .numero)
+        try container.encodeIfPresent(self.datiRitenuta, forKey: .datiRitenuta)
+        try container.encodeIfPresent(self.datiBollo, forKey: .datiBollo)
+        try container.encodeIfPresent(self.datiCassaPrevidenziale, forKey: .datiCassaPrevidenziale)
+        try container.encodeIfPresent(self.scontoMaggiorazione, forKey: .scontoMaggiorazione)
+        try container.encodeIfPresent(self.importoTotaleDocumento, forKey: .importoTotaleDocumento)
+        try container.encodeIfPresent(self.arrotondamento, forKey: .arrotondamento)
+        try container.encodeIfPresent(self.causale, forKey: .causale)
+        try container.encodeIfPresent(self.art73, forKey: .art73)
+    }
+
 }
 
 public enum TipoDocumento: String, Codable {
@@ -603,13 +934,15 @@ public enum TipoDocumento: String, Codable {
     case TD25 = "TD25"
     case TD26 = "TD26"
     case TD27 = "TD27"
+    // Mark: - Fattura Elettronica v 1.3.2
+    case TD28 = "TD28"
 }
 
 public struct DatiRitenuta: Codable {
-    public let tipoRitenuta: TipoRitenuta
-    public let importoRitenuta: Double
-    public let aliquotaRitenuta: Double
-    public let causalePagamento: CausalePagamento
+    public var tipoRitenuta: TipoRitenuta
+    public var importoRitenuta: Double
+    public var aliquotaRitenuta: Double
+    public var causalePagamento: CausalePagamento
     
     public init(tipoRitenuta: TipoRitenuta, importoRitenuta: Double, aliquotaRitenuta: Double, causalePagamento: CausalePagamento) {
         self.tipoRitenuta = tipoRitenuta
@@ -623,6 +956,21 @@ public struct DatiRitenuta: Codable {
         case importoRitenuta = "importoritenuta"
         case aliquotaRitenuta = "aliquotaritenuta"
         case causalePagamento = "causalepagamento"
+    }
+
+    enum EncodableKeys: String, CodingKey {
+        case tipoRitenuta = "TipoRitenuta"
+        case importoRitenuta = "ImportoRitenuta"
+        case aliquotaRitenuta = "AliquotaRitenuta"
+        case causalePagamento = "CausalePagamento"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.tipoRitenuta, forKey: .tipoRitenuta)
+        try container.encode(self.importoRitenuta, forKey: .importoRitenuta)
+        try container.encode(self.aliquotaRitenuta, forKey: .aliquotaRitenuta)
+        try container.encode(self.causalePagamento, forKey: .causalePagamento)
     }
 }
 
@@ -666,8 +1014,8 @@ public enum CausalePagamento: String, Codable {
 }
 
 public struct DatiBollo: Codable {
-    public let bolloVirtuale: String
-    public let importoBollo: Double?
+    public var bolloVirtuale: String
+    public var importoBollo: Double?
     
     public init(bolloVirtuale: String, importoBollo: Double?) {
         self.bolloVirtuale = bolloVirtuale
@@ -678,17 +1026,28 @@ public struct DatiBollo: Codable {
         case bolloVirtuale = "bollovirtuale"
         case importoBollo = "importobollo"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case bolloVirtuale = "BolloVirtuale"
+        case importoBollo = "ImportoBollo"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.bolloVirtuale, forKey: .bolloVirtuale)
+        try container.encodeIfPresent(self.importoBollo, forKey: .importoBollo)
+    }
 }
 
 public struct DatiCassaPrevidenziale: Codable {
-    public let tipoCassa: TipoCassa
-    public let alCassa: Double
-    public let importoContributoCassa: Double
-    public let imponibileCassa: Double?
-    public let aliquotaIVA: Double
+    public var tipoCassa: TipoCassa
+    public var alCassa: Double
+    public var importoContributoCassa: Double
+    public var imponibileCassa: Double?
+    public var aliquotaIVA: Double
     @PABool public var ritenuta: Bool?
-    public let natura: Natura?
-    public let riferimentoAmministrazione: String?
+    public var natura: Natura?
+    public var riferimentoAmministrazione: String?
     
     public init(tipoCassa: TipoCassa, alCassa: Double, importoContributoCassa: Double, imponibileCassa: Double?, aliquotaIVA: Double, ritenuta: Bool?, natura: Natura?, riferimentoAmministrazione: String?) {
         self.tipoCassa = tipoCassa
@@ -710,6 +1069,29 @@ public struct DatiCassaPrevidenziale: Codable {
         case ritenuta = "ritenuta"
         case natura = "natura"
         case riferimentoAmministrazione = "riferimentoamministrazione"
+    }
+
+    enum EncodableKeys: String, CodingKey {
+        case tipoCassa = "TipoCassa"
+        case alCassa = "AlCassa"
+        case importoContributoCassa = "ImportoContributoCassa"
+        case imponibileCassa = "ImponibileCassa"
+        case aliquotaIVA = "AliquotaIVA"
+        case ritenuta = "Ritenuta"
+        case natura = "Natura"
+        case riferimentoAmministrazione = "RiferimentoAmministrazione"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.tipoCassa, forKey: .tipoCassa)
+        try container.encode(self.alCassa, forKey: .alCassa)
+        try container.encode(self.importoContributoCassa, forKey: .importoContributoCassa)
+        try container.encodeIfPresent(self.imponibileCassa, forKey: .imponibileCassa)
+        try container.encode(self.aliquotaIVA, forKey: .aliquotaIVA)
+        try container.encodeIfPresent(self.ritenuta, forKey: .ritenuta)
+        try container.encodeIfPresent(self.natura, forKey: .natura)
+        try container.encodeIfPresent(self.riferimentoAmministrazione, forKey: .riferimentoAmministrazione)
     }
 }
 
@@ -739,9 +1121,9 @@ public enum TipoCassa: String, Codable {
 }
 
 public struct ScontoMaggiorazione: Codable {
-    public let tipo: TipoScontoMaggiorazione
-    public let percentuale: Double?
-    public let importo: Double?
+    public var tipo: TipoScontoMaggiorazione
+    public var percentuale: Double?
+    public var importo: Double?
     
     public init(tipo: TipoScontoMaggiorazione, percentuale: Double?, importo: Double?) {
         self.tipo = tipo
@@ -755,6 +1137,19 @@ public struct ScontoMaggiorazione: Codable {
         case percentuale = "percentuale"
         case importo = "importo"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case tipo = "Tipo"
+        case percentuale = "Percentuale"
+        case importo = "Importo"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.tipo, forKey: .tipo)
+        try container.encodeIfPresent(self.percentuale, forKey: .percentuale)
+        try container.encodeIfPresent(self.importo, forKey: .importo)
+    }
 }
 
 public enum TipoScontoMaggiorazione: String, Codable {
@@ -763,13 +1158,13 @@ public enum TipoScontoMaggiorazione: String, Codable {
 }
 
 public struct DatiDocumentiCorrelati: Codable {
-    public let riferimentoNumeroLinea: [Int]?
-    public let idDocumento: String
-    public let numItem: String?
-    public let codiceCup: String?
-    public let codiceCig: String?
-    public let data: Date?
-    public let codiceCommessaConvenzione: String?
+    public var riferimentoNumeroLinea: [Int]?
+    public var idDocumento: String
+    public var numItem: String?
+    public var codiceCup: String?
+    public var codiceCig: String?
+    public var data: Date?
+    public var codiceCommessaConvenzione: String?
     
     public init(riferimentoNumeroLinea: [Int]?, idDocumento: String, numItem: String?, codiceCup: String?, codiceCig: String?, data: Date?, codiceCommessaConvenzione: String?) {
         self.riferimentoNumeroLinea = riferimentoNumeroLinea
@@ -790,10 +1185,31 @@ public struct DatiDocumentiCorrelati: Codable {
         case data = "data"
         case codiceCommessaConvenzione = "codicecommessaconvenzione"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case riferimentoNumeroLinea = "RiferimentoNumeroLinea"
+        case idDocumento = "IdDocumento"
+        case numItem = "NumItem"
+        case codiceCup = "CodiceCUP"
+        case codiceCig = "CodiceCIG"
+        case data = "Data"
+        case codiceCommessaConvenzione = "CodiceCommessaConvenzione"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.riferimentoNumeroLinea, forKey: .riferimentoNumeroLinea)
+        try container.encode(self.idDocumento, forKey: .idDocumento)
+        try container.encodeIfPresent(self.numItem, forKey: .numItem)
+        try container.encodeIfPresent(self.codiceCup, forKey: .codiceCup)
+        try container.encodeIfPresent(self.codiceCig, forKey: .codiceCig)
+        try container.encodeIfPresent(self.data, forKey: .data)
+        try container.encodeIfPresent(self.codiceCommessaConvenzione, forKey: .codiceCommessaConvenzione)
+    }
 }
 
 public struct DatiSAL: Codable {
-    public let riferimentoFase: Int
+    public var riferimentoFase: Int
     
     public init(riferimentoFase: Int) {
         self.riferimentoFase = riferimentoFase
@@ -803,12 +1219,21 @@ public struct DatiSAL: Codable {
     enum CodingKeys: String, CodingKey{
         case riferimentoFase = "riferimentofase"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case riferimentoFase = "RiferimentoFase"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.riferimentoFase, forKey: .riferimentoFase)
+    }
 }
 
 public struct DatiDDT: Codable {
-    public let numeroDdt: String
-    public let dataDdt: Date
-    public let riferimentoNumeroLinea: [Int]?
+    public var numeroDdt: String
+    public var dataDdt: Date
+    public var riferimentoNumeroLinea: [Int]?
     
     public init(numeroDdt: String, dataDdt: Date, riferimentoNumeroLinea: [Int]?) {
         self.numeroDdt = numeroDdt
@@ -822,22 +1247,35 @@ public struct DatiDDT: Codable {
         case dataDdt = "dataddt"
         case riferimentoNumeroLinea = "riferimentonumerolinea"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case numeroDdt = "NumeroDDT"
+        case dataDdt = "DataDDT"
+        case riferimentoNumeroLinea = "RiferimentoNumeroLinea"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.numeroDdt, forKey: .numeroDdt)
+        try container.encode(self.dataDdt, forKey: .dataDdt)
+        try container.encodeIfPresent(self.riferimentoNumeroLinea, forKey: .riferimentoNumeroLinea)
+    }
 }
 
 public struct DatiTrasporto: Codable {
-    public let datiAnagraficiVettore: DatiAnagraficiVettore?
-    public let mezzoTrasporto: String?
-    public let causaleTrasporto: String?
-    public let numeroColli: Int?
-    public let descrizione: String?
-    public let unitaMisuraPeso: String?
-    public let pesoLordo: Double?
-    public let pesoNetto: Double?
-    public let dataOraRitiro: Date?
-    public let dataInizioTrasporto: Date?
-    public let tipoResa: String?
-    public let indirizzoResa: Indirizzo?
-    public let dataOraConsegna: Date?
+    public var datiAnagraficiVettore: DatiAnagraficiVettore?
+    public var mezzoTrasporto: String?
+    public var causaleTrasporto: String?
+    public var numeroColli: Int?
+    public var descrizione: String?
+    public var unitaMisuraPeso: String?
+    public var pesoLordo: Double?
+    public var pesoNetto: Double?
+    public var dataOraRitiro: Date?
+    public var dataInizioTrasporto: Date?
+    public var tipoResa: String?
+    public var indirizzoResa: Indirizzo?
+    public var dataOraConsegna: Date?
     
     public init(datiAnagraficiVettore: DatiAnagraficiVettore?, mezzoTrasporto: String?, causaleTrasporto: String?, numeroColli: Int?, descrizione: String?, unitaMisuraPeso: String?, pesoLordo: Double?, pesoNetto: Double?, dataOraRitiro: Date?, dataInizioTrasporto: Date?, tipoResa: String?, indirizzoResa: Indirizzo?, dataOraConsegna: Date?) {
         self.datiAnagraficiVettore = datiAnagraficiVettore
@@ -870,14 +1308,47 @@ public struct DatiTrasporto: Codable {
         case indirizzoResa = "indirizzoresa"
         case dataOraConsegna = "dataoraconsegna"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case datiAnagraficiVettore = "DatiAnagraficiVettore"
+        case mezzoTrasporto = "MezzoTrasporto"
+        case causaleTrasporto = "CausaleTrasporto"
+        case numeroColli = "NumeroColli"
+        case descrizione = "Descrizione"
+        case unitaMisuraPeso = "UnitaMisuraPeso"
+        case pesoLordo = "PesoLordo"
+        case pesoNetto = "PesoNetto"
+        case dataOraRitiro = "DataOraRitiro"
+        case dataInizioTrasporto = "DataInizioTrasporto"
+        case tipoResa = "TipoResa"
+        case indirizzoResa = "IndirizzoResa"
+        case dataOraConsegna = "DataOraConsegna"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.datiAnagraficiVettore, forKey: .datiAnagraficiVettore)
+        try container.encodeIfPresent(self.mezzoTrasporto, forKey: .mezzoTrasporto)
+        try container.encodeIfPresent(self.causaleTrasporto, forKey: .causaleTrasporto)
+        try container.encodeIfPresent(self.numeroColli, forKey: .numeroColli)
+        try container.encodeIfPresent(self.descrizione, forKey: .descrizione)
+        try container.encodeIfPresent(self.unitaMisuraPeso, forKey: .unitaMisuraPeso)
+        try container.encodeIfPresent(self.pesoLordo, forKey: .pesoLordo)
+        try container.encodeIfPresent(self.pesoNetto, forKey: .pesoNetto)
+        try container.encodeIfPresent(self.dataOraRitiro, forKey: .dataOraRitiro)
+        try container.encodeIfPresent(self.dataInizioTrasporto, forKey: .dataInizioTrasporto)
+        try container.encodeIfPresent(self.tipoResa, forKey: .tipoResa)
+        try container.encodeIfPresent(self.indirizzoResa, forKey: .indirizzoResa)
+        try container.encodeIfPresent(self.dataOraConsegna, forKey: .dataOraConsegna)
+    }
     
 }
 
 public struct DatiAnagraficiVettore: Codable {
-    public let idFiscaleIva: IDFiscale
-    public let codiceFiscale: String?
-    public let anagrafica: Anagrafica
-    public let numeroLicenzaGuida: String?
+    public var idFiscaleIva: IDFiscale
+    public var codiceFiscale: String?
+    public var anagrafica: Anagrafica
+    public var numeroLicenzaGuida: String?
     
     public init(idFiscaleIva: IDFiscale, codiceFiscale: String?, anagrafica: Anagrafica, numeroLicenzaGuida: String?) {
         self.idFiscaleIva = idFiscaleIva
@@ -892,11 +1363,26 @@ public struct DatiAnagraficiVettore: Codable {
         case anagrafica = "anagrafica"
         case numeroLicenzaGuida = "numerolicenzaguida"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case idFiscaleIva = "IdFiscaleIVA"
+        case codiceFiscale = "CodiceFiscale"
+        case anagrafica = "Anagrafica"
+        case numeroLicenzaGuida = "NumeroLicenzaGuida"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.idFiscaleIva, forKey: .idFiscaleIva)
+        try container.encodeIfPresent(self.codiceFiscale, forKey: .codiceFiscale)
+        try container.encodeIfPresent(self.anagrafica, forKey: .anagrafica)
+        try container.encodeIfPresent(self.numeroLicenzaGuida, forKey: .numeroLicenzaGuida)
+    }
 }
 
 public struct FatturaPrincipale: Codable {
-    public let numeroFatturaPrincipale: String
-    public let dataFatturaPrincipale: Date
+    public var numeroFatturaPrincipale: String
+    public var dataFatturaPrincipale: Date
     
     public init(numeroFatturaPrincipale: String, dataFatturaPrincipale: Date) {
         self.numeroFatturaPrincipale = numeroFatturaPrincipale
@@ -907,12 +1393,23 @@ public struct FatturaPrincipale: Codable {
         case numeroFatturaPrincipale = "numerofatturaprincipale"
         case dataFatturaPrincipale = "datafatturaprincipale"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case numeroFatturaPrincipale = "NumeroFatturaPrincipale"
+        case dataFatturaPrincipale = "DataFatturaPrincipale"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.numeroFatturaPrincipale, forKey: .numeroFatturaPrincipale)
+        try container.encodeIfPresent(self.dataFatturaPrincipale, forKey: .dataFatturaPrincipale)
+    }
 }
 
 // MARK: - 2.2 <DatiBeniServizi>
 public struct DatiBeniServizi: Codable {
-    public let dettaglioLinee: [DettaglioLinee]
-    public let datiRiepilogo: [DatiRiepilogo]
+    public var dettaglioLinee: [DettaglioLinee]
+    public var datiRiepilogo: [DatiRiepilogo]
     
     public init(dettaglioLinee: [DettaglioLinee], datiRiepilogo: [DatiRiepilogo]) {
         self.dettaglioLinee = dettaglioLinee
@@ -923,25 +1420,36 @@ public struct DatiBeniServizi: Codable {
         case dettaglioLinee = "dettagliolinee"
         case datiRiepilogo = "datiriepilogo"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case dettaglioLinee = "DettaglioLinee"
+        case datiRiepilogo = "DatiRiepilogo"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.dettaglioLinee, forKey: .dettaglioLinee)
+        try container.encodeIfPresent(self.datiRiepilogo, forKey: .datiRiepilogo)
+    }
 }
 
 public struct DettaglioLinee: Codable {
-    public let codiceArticolo: [CodiceArticolo]?
-    public let numeroLinea: Int
-    public let tipoCessionePrestazione: TipoCessionePrestazione?
-    public let descrizione: String
-    public let quantita: Double?
-    public let unitaMisura: String?
-    public let dataInizioPeriodo: Date?
-    public let dataFinePeriodo: Date?
-    public let prezzoUnitario: Double
-    public let scontoMaggiorazione: [ScontoMaggiorazione]?
-    public let prezzoTotale: Double
-    public let aliquotaIva: Double
+    public var codiceArticolo: [CodiceArticolo]?
+    public var numeroLinea: Int
+    public var tipoCessionePrestazione: TipoCessionePrestazione?
+    public var descrizione: String
+    public var quantita: Double?
+    public var unitaMisura: String?
+    public var dataInizioPeriodo: Date?
+    public var dataFinePeriodo: Date?
+    public var prezzoUnitario: Double
+    public var scontoMaggiorazione: [ScontoMaggiorazione]?
+    public var prezzoTotale: Double
+    public var aliquotaIva: Double
     @PABool public var ritenuta: Bool?
-    public let natura: Natura?
-    public let riferimentoAmministrazione: String?
-    public let altriDatiGestionali: [AltriDatiGestionali]?
+    public var natura: Natura?
+    public var riferimentoAmministrazione: String?
+    public var altriDatiGestionali: [AltriDatiGestionali]?
     
     public init(codiceArticolo: [CodiceArticolo]?, numeroLinea: Int, tipoCessionePrestazione: TipoCessionePrestazione?, descrizione: String, quantita: Double?, unitaMisura: String?, dataInizioPeriodo: Date?, dataFinePeriodo: Date?, prezzoUnitario: Double, scontoMaggiorazione: [ScontoMaggiorazione]?, prezzoTotale: Double, aliquotaIva: Double, ritenuta: Bool?, natura: Natura?, riferimentoAmministrazione: String?, altriDatiGestionali: [AltriDatiGestionali]?) {
         self.codiceArticolo = codiceArticolo
@@ -981,17 +1489,56 @@ public struct DettaglioLinee: Codable {
         case natura = "natura"
         case riferimentoAmministrazione = "riferimentoamministrazione"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case codiceArticolo = "CodiceArticolo"
+        case altriDatiGestionali = "AltriDatiGestionali"
+        case numeroLinea = "NumeroLinea"
+        case tipoCessionePrestazione = "TipoCessionePrestazione"
+        case descrizione = "Descrizione"
+        case quantita = "Quantita"
+        case unitaMisura = "UnitaMisura"
+        case dataInizioPeriodo = "DataInizioPeriodo"
+        case dataFinePeriodo = "DataFinePeriodo"
+        case prezzoUnitario = "PrezzoUnitario"
+        case scontoMaggiorazione = "ScontoMaggiorazione"
+        case prezzoTotale = "PrezzoTotale"
+        case aliquotaIva = "AliquotaIva"
+        case ritenuta = "Ritenuta"
+        case natura = "Natura"
+        case riferimentoAmministrazione = "RiferimentoAmministrazione"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.codiceArticolo, forKey: .codiceArticolo)
+        try container.encodeIfPresent(self.altriDatiGestionali, forKey: .altriDatiGestionali)
+        try container.encode(self.numeroLinea, forKey: .numeroLinea)
+        try container.encodeIfPresent(self.tipoCessionePrestazione, forKey: .tipoCessionePrestazione)
+        try container.encode(self.descrizione, forKey: .descrizione)
+        try container.encodeIfPresent(self.quantita, forKey: .quantita)
+        try container.encodeIfPresent(self.unitaMisura, forKey: .unitaMisura)
+        try container.encodeIfPresent(self.dataInizioPeriodo, forKey: .dataInizioPeriodo)
+        try container.encodeIfPresent(self.dataFinePeriodo, forKey: .dataFinePeriodo)
+        try container.encode(self.prezzoUnitario, forKey: .prezzoUnitario)
+        try container.encodeIfPresent(self.scontoMaggiorazione, forKey: .scontoMaggiorazione)
+        try container.encode(self.prezzoTotale, forKey: .prezzoTotale)
+        try container.encode(self.aliquotaIva, forKey: .aliquotaIva)
+        try container.encodeIfPresent(self.ritenuta, forKey: .ritenuta)
+        try container.encodeIfPresent(self.natura, forKey: .natura)
+        try container.encodeIfPresent(self.riferimentoAmministrazione, forKey: .riferimentoAmministrazione)
+    }
 }
 
 public struct DatiRiepilogo: Codable {
-    public let aliquotaIva: Double
-    public let natura: Natura?
-    public let speseAccessorie: Double?
-    public let arrotondamento: Double?
-    public let imponibileImporto: Double
-    public let imposta: Double
-    public let esigibilitaIva: EsigibilitaIVA?
-    public let riferimentoNormativo: String?
+    public var aliquotaIva: Double
+    public var natura: Natura?
+    public var speseAccessorie: Double?
+    public var arrotondamento: Double?
+    public var imponibileImporto: Double
+    public var imposta: Double
+    public var esigibilitaIva: EsigibilitaIVA?
+    public var riferimentoNormativo: String?
     
     public init(aliquotaIva: Double, natura: Natura?, speseAccessorie: Double?, arrotondamento: Double?, imponibileImporto: Double, imposta: Double, esigibilitaIva: EsigibilitaIVA?, riferimentoNormativo: String?) {
         self.aliquotaIva = aliquotaIva
@@ -1014,6 +1561,29 @@ public struct DatiRiepilogo: Codable {
         case esigibilitaIva = "esigibilitaiva"
         case riferimentoNormativo = "riferimentonormativo"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case aliquotaIva = "AliquotaIva"
+        case natura = "Natura"
+        case speseAccessorie = "SpeseAccessorie"
+        case arrotondamento = "Arrotondamento"
+        case imponibileImporto = "ImponibileImporto"
+        case imposta = "Imposta"
+        case esigibilitaIva = "EsigibilitaIVA"
+        case riferimentoNormativo = "RiferimentoNormativo"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.aliquotaIva, forKey: .aliquotaIva)
+        try container.encodeIfPresent(self.natura, forKey: .natura)
+        try container.encodeIfPresent(self.speseAccessorie, forKey: .speseAccessorie)
+        try container.encodeIfPresent(self.arrotondamento, forKey: .arrotondamento)
+        try container.encode(self.imponibileImporto, forKey: .imponibileImporto)
+        try container.encode(self.imposta, forKey: .imposta)
+        try container.encodeIfPresent(self.esigibilitaIva, forKey: .esigibilitaIva)
+        try container.encodeIfPresent(self.riferimentoNormativo, forKey: .riferimentoNormativo)
+    }
 }
 
 public enum EsigibilitaIVA: String, Codable {
@@ -1030,8 +1600,8 @@ public enum TipoCessionePrestazione: String, Codable {
 }
 
 public struct CodiceArticolo: Codable {
-    public let codiceTipo: String
-    public let codiceValore: String
+    public var codiceTipo: String
+    public var codiceValore: String
     
     public init(codiceTipo: String, codiceValore: String) {
         self.codiceTipo = codiceTipo
@@ -1042,13 +1612,24 @@ public struct CodiceArticolo: Codable {
         case codiceTipo = "codicetipo"
         case codiceValore = "codicevalore"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case codiceTipo = "CodiceTipo"
+        case codiceValore = "CodiceValore"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.codiceTipo, forKey: .codiceTipo)
+        try container.encode(self.codiceValore, forKey: .codiceValore)
+    }
 }
 
 public struct AltriDatiGestionali: Codable {
-    public let tipoDato: String
-    public let riferimentoTesto: String?
-    public let riferimentoNumero: Double?
-    public let riferimentoData: Date?
+    public var tipoDato: String
+    public var riferimentoTesto: String?
+    public var riferimentoNumero: Double?
+    public var riferimentoData: Date?
     
     public init(tipoDato: String, riferimentoTesto: String?, riferimentoNumero: Double?, riferimentoData: Date?) {
         self.tipoDato = tipoDato
@@ -1063,12 +1644,27 @@ public struct AltriDatiGestionali: Codable {
         case riferimentoNumero = "riferimentonumero"
         case riferimentoData = "riferimentodata"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case tipoDato = "TipoDato"
+        case riferimentoTesto = "RiferimentoTesto"
+        case riferimentoNumero = "RiferimentoNumero"
+        case riferimentoData = "RiferimentoData"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.tipoDato, forKey: .tipoDato)
+        try container.encodeIfPresent(self.riferimentoTesto, forKey: .riferimentoTesto)
+        try container.encodeIfPresent(self.riferimentoNumero, forKey: .riferimentoNumero)
+        try container.encodeIfPresent(self.riferimentoData, forKey: .riferimentoData)
+    }
 }
 
 // MARK: - 2.3 <DatiVeicoli>
 public struct DatiVeicoli: Codable {
-    public let data: Date
-    public let totalePercorso: String
+    public var data: Date
+    public var totalePercorso: String
 
     public init(data: Date, totalePercorso: String) {
         self.data = data
@@ -1079,12 +1675,23 @@ public struct DatiVeicoli: Codable {
         case data = "data"
         case totalePercorso = "totalepercorso"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case data = "Data"
+        case totalePercorso = "TotalePercorso"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.data, forKey: .data)
+        try container.encode(self.totalePercorso, forKey: .totalePercorso)
+    }
 }
 
 // MARK: - 2.4 <DatiPagamento>
 public struct DatiPagamento: Codable {
-    public let dettaglioPagamento: [DettaglioPagamento]
-    public let condizioniPagamento: CondizioniPagamento
+    public var dettaglioPagamento: [DettaglioPagamento]
+    public var condizioniPagamento: CondizioniPagamento
     
     public init(dettaglioPagamento: [DettaglioPagamento], condizioniPagamento: CondizioniPagamento) {
         self.dettaglioPagamento = dettaglioPagamento
@@ -1096,30 +1703,41 @@ public struct DatiPagamento: Codable {
         case dettaglioPagamento = "dettagliopagamento"
         case condizioniPagamento = "condizionipagamento"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case dettaglioPagamento = "DettaglioPagamento"
+        case condizioniPagamento = "CondizioniPagamento"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.dettaglioPagamento, forKey: .dettaglioPagamento)
+        try container.encode(self.condizioniPagamento, forKey: .condizioniPagamento)
+    }
 }
 
 public struct DettaglioPagamento: Codable {
-    public let beneficiario: String?
-    public let modalitaPagamento: ModalitaPagamento
-    public let dataRiferimentoTerminiPagamento: Date?
-    public let giorniTerminiPagamento: Int?
-    public let dataScadenzaPagamento: Date?
-    public let importoPagamento: Double
-    public let codUfficioPostale: String?
-    public let cognomeQuietanzante: String?
-    public let nomeQuietanzante: String?
-    public let cfQuietanzante: String?
-    public let titoloQuietanzante: String?
-    public let istitutoFinanziario: String?
-    public let iban: String?
-    public let abi: Int?
-    public let cab: Int?
-    public let bic: String?
-    public let scontoPagamentoAnticipato: Double?
-    public let dataLimitePagamentoAnticipato: Date?
-    public let penalitaPagamentiRitardati: Double?
-    public let dataDecorrenzaPenale: Date?
-    public let codicePagamento: String?
+    public var beneficiario: String?
+    public var modalitaPagamento: ModalitaPagamento
+    public var dataRiferimentoTerminiPagamento: Date?
+    public var giorniTerminiPagamento: Int?
+    public var dataScadenzaPagamento: Date?
+    public var importoPagamento: Double
+    public var codUfficioPostale: String?
+    public var cognomeQuietanzante: String?
+    public var nomeQuietanzante: String?
+    public var cfQuietanzante: String?
+    public var titoloQuietanzante: String?
+    public var istitutoFinanziario: String?
+    public var iban: String?
+    public var abi: Int?
+    public var cab: Int?
+    public var bic: String?
+    public var scontoPagamentoAnticipato: Double?
+    public var dataLimitePagamentoAnticipato: Date?
+    public var penalitaPagamentiRitardati: Double?
+    public var dataDecorrenzaPenale: Date?
+    public var codicePagamento: String?
     
     public init(beneficiario: String?, modalitaPagamento: ModalitaPagamento, dataRiferimentoTerminiPagamento: Date?, giorniTerminiPagamento: Int?, dataScadenzaPagamento: Date?, importoPagamento: Double, codUfficioPostale: String?, cognomeQuietanzante: String?, nomeQuietanzante: String?, cfQuietanzante: String?, titoloQuietanzante: String?, istitutoFinanziario: String?, iban: String?, abi: Int?, cab: Int?, bic: String?, scontoPagamentoAnticipato: Double?, dataLimitePagamentoAnticipato: Date?, penalitaPagamentiRitardati: Double?, dataDecorrenzaPenale: Date?, codicePagamento: String?) {
         self.beneficiario = beneficiario
@@ -1168,6 +1786,55 @@ public struct DettaglioPagamento: Codable {
         case dataDecorrenzaPenale = "datadecorrenzapenale"
         case codicePagamento = "codicepagamento"
     }
+
+    enum EncodableKeys: String, CodingKey {
+        case beneficiario = "Beneficiario"
+        case modalitaPagamento = "ModalitaPagamento"
+        case dataRiferimentoTerminiPagamento = "DataRiferimentoTerminiPagamento"
+        case giorniTerminiPagamento = "GiorniTerminiPagamento"
+        case dataScadenzaPagamento = "DataScadenzaPagamento"
+        case importoPagamento = "ImportoPagamento"
+        case codUfficioPostale = "CodUfficioPostale"
+        case cognomeQuietanzante = "CognomeQuietanzante"
+        case nomeQuietanzante = "NomeQuietanzante"
+        case cfQuietanzante = "CfQuietanzante"
+        case titoloQuietanzante = "TitoloQuietanzante"
+        case istitutoFinanziario = "IstitutoFinanziario"
+        case iban = "Iban"
+        case abi = "Abi"
+        case cab = "Cab"
+        case bic = "Bic"
+        case scontoPagamentoAnticipato = "ScontoPagamentoAnticipato"
+        case dataLimitePagamentoAnticipato = "DataLimitePagamentoAnticipato"
+        case penalitaPagamentiRitardati = "PenalitaPagamentiRitardati"
+        case dataDecorrenzaPenale = "DataDecorrenzaPenale"
+        case codicePagamento = "CodicePagamento"
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encodeIfPresent(self.beneficiario, forKey: .beneficiario)
+        try container.encode(self.modalitaPagamento, forKey: .modalitaPagamento)
+        try container.encodeIfPresent(self.dataRiferimentoTerminiPagamento, forKey: .dataRiferimentoTerminiPagamento)
+        try container.encodeIfPresent(self.giorniTerminiPagamento, forKey: .giorniTerminiPagamento)
+        try container.encodeIfPresent(self.dataScadenzaPagamento, forKey: .dataScadenzaPagamento)
+        try container.encodeIfPresent(self.importoPagamento, forKey: .importoPagamento)
+        try container.encodeIfPresent(self.codUfficioPostale, forKey: .codUfficioPostale)
+        try container.encodeIfPresent(self.cognomeQuietanzante, forKey: .cognomeQuietanzante)
+        try container.encodeIfPresent(self.nomeQuietanzante, forKey: .nomeQuietanzante)
+        try container.encodeIfPresent(self.cfQuietanzante, forKey: .cfQuietanzante)
+        try container.encodeIfPresent(self.titoloQuietanzante, forKey: .titoloQuietanzante)
+        try container.encodeIfPresent(self.istitutoFinanziario, forKey: .istitutoFinanziario)
+        try container.encodeIfPresent(self.iban, forKey: .iban)
+        try container.encodeIfPresent(self.abi, forKey: .abi)
+        try container.encodeIfPresent(self.cab, forKey: .cab)
+        try container.encodeIfPresent(self.bic, forKey: .bic)
+        try container.encodeIfPresent(self.scontoPagamentoAnticipato, forKey: .scontoPagamentoAnticipato)
+        try container.encodeIfPresent(self.dataLimitePagamentoAnticipato, forKey: .dataLimitePagamentoAnticipato)
+        try container.encodeIfPresent(self.penalitaPagamentiRitardati, forKey: .penalitaPagamentiRitardati)
+        try container.encodeIfPresent(self.dataDecorrenzaPenale, forKey: .dataDecorrenzaPenale)
+        try container.encodeIfPresent(self.codicePagamento, forKey: .codicePagamento)
+    }
 }
 
 public enum ModalitaPagamento: String, Codable {
@@ -1204,11 +1871,11 @@ public enum CondizioniPagamento: String, Codable {
 
 // MARK: - 2.5 <Allegati>
 public struct Allegati: Codable {
-    public let nomeAttachment: String
-    public let algoritmoCompressione: String?
-    public let formatoAttachment: String?
-    public let descrizioneAttachment: String?
-    public let attachment: String
+    public var nomeAttachment: String
+    public var algoritmoCompressione: String?
+    public var formatoAttachment: String?
+    public var descrizioneAttachment: String?
+    public var attachment: String
     
     public init(nomeAttachment: String, algoritmoCompressione: String?, formatoAttachment: String?, descrizioneAttachment: String?, attachment: String) {
         self.nomeAttachment = nomeAttachment
@@ -1225,5 +1892,21 @@ public struct Allegati: Codable {
         case descrizioneAttachment = "descrizioneattachment"
         case attachment = "attachment"
     }
+
+    enum EncodableKeys: String, CodingKey{
+        case nomeAttachment = "NomeAttachment"
+        case algoritmoCompressione = "AlgoritmoCompressione"
+        case formatoAttachment = "FormatoAttachment"
+        case descrizioneAttachment = "DescrizioneAttachment"
+        case attachment = "Attachment"
+    }
     
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: EncodableKeys.self)
+        try container.encode(self.nomeAttachment, forKey: .nomeAttachment)
+        try container.encodeIfPresent(self.algoritmoCompressione, forKey: .algoritmoCompressione)
+        try container.encodeIfPresent(self.formatoAttachment, forKey: .formatoAttachment)
+        try container.encodeIfPresent(self.descrizioneAttachment, forKey: .descrizioneAttachment)
+        try container.encode(self.attachment, forKey: .attachment)
+    }
 }

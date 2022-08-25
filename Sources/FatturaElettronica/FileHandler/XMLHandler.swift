@@ -23,6 +23,9 @@ extension Date{
 public class XMLHandler{
     let eventLoop: EventLoop
     let decoder = XMLDecoder()
+    let encoder = XMLEncoder()
+
+    private let defaultFormatter: DateFormatter = DateFormatter()
 
     public convenience init() {
         let loop = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount).next()
@@ -48,7 +51,8 @@ public class XMLHandler{
     public init(on loop: EventLoop){
         self.eventLoop = loop
         self.decoder.shouldProcessNamespaces = true
-        
+        self.defaultFormatter.dateFormat = "yyyy-MM-dd"
+
         self.decoder.dateDecodingStrategy = .custom {
             let container = try $0.singleValueContainer()
             let string = try container.decode(String.self)
@@ -72,8 +76,21 @@ public class XMLHandler{
             let loweCasedKey = last.stringValue.lowercased()
             return XMLKey(stringValue: loweCasedKey)
         }
+        self.decoder.dataDecodingStrategy = .base64
+        self.encoder.dateEncodingStrategy = .custom { date, encoder in
+            var container = encoder.singleValueContainer()
+            try container.encode(self.defaultFormatter.string(from: date))
+        }
+        self.encoder.dataEncodingStrategy = .base64
+        self.encoder.outputFormatting = .prettyPrinted
+        self.encoder.prettyPrintIndentation = .spaces(4)
+        self.encoder.stringEncodingStrategy = .deferredToString
     }
     
+    func invoiceToXML(_ invoice: FatturaElettronica) throws -> Data {
+        try self.encoder.encode(invoice)
+    }
+
     func xmlToInvoice(_ xml: String) -> EventLoopFuture<FatturaElettronica>{
         let loop = self.eventLoop.next()
 
