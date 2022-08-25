@@ -26,7 +26,13 @@ public struct PABool: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        try container.encode(self.wrappedValue)
+    /// https://www.fatturapa.gov.it/it/norme-e-regole/documentazione-fattura-elettronica/formato-fatturapa/
+    /// As of documentation this value if true must be encoded as "SI".
+    /// and in case of false the value is not encoded
+        if let bool = self.wrappedValue,
+           bool {
+            try container.encode("SI")
+        }
     }
 }
 
@@ -38,7 +44,7 @@ extension KeyedDecodingContainer {
 
 extension KeyedEncodingContainer {
     public mutating func encode(_ value: PABool, forKey key: Self.Key) throws {
-        if value.wrappedValue != nil {
+        if let bool = value.wrappedValue, bool {
             try value.encode(to: self.superEncoder(forKey: key))
         }
     }

@@ -35,6 +35,10 @@ extension XMLHandler{
     public func handle(_ xml: String) -> EventLoopFuture<FatturaElettronica> {
         return self.xmlToInvoice(xml)
     }
+
+    public func encode(_ invoice: FatturaElettronica) throws -> Data {
+        try self.invoiceToXML(invoice)
+    }
     
     private func handleXML(_ data: Data) -> EventLoopFuture<FatturaElettronica> {
         self.eventLoop.submit{
