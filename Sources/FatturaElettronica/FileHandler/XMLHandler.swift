@@ -132,7 +132,7 @@ public class XMLHandler{
                 let p7mPath = path.absoluteString.replacingOccurrences(of: "file://", with: "")
                 
                 
-                let command = "openssl smime -decrypt -verify -inform DER -in \(p7mPath) -noverify -out \(p7mPath).xml"
+                let command = "openssl cms -verify -in \(p7mPath) -inform DER -no-CAfile -verify_retcode -noverify -out \(p7mPath).xml"
                 
                 _ = self.shell(command: command)
                 
